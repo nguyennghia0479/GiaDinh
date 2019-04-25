@@ -27,24 +27,21 @@ public class KhoaController {
 	@RequestMapping(value = "/khoa", method = RequestMethod.GET)
 	public String listKhoa(ModelMap map) {
 		map.addAttribute("dsKhoa", khoaService.findAll());
-		map.addAttribute("count", khoaService.count());
+		map.addAttribute("result", khoaService.countList());
 		return "khoa";
 	}
 	
-	@RequestMapping(value = "/khoa", method = RequestMethod.POST)
-	public String search(@RequestParam String searchTerm, ModelMap map) {
-		List<Khoa> list = khoaService.search(searchTerm);
+	@RequestMapping(value = "/search-khoa", method = RequestMethod.GET)
+	public String search(@RequestParam String k, ModelMap map) {
+		List<Khoa> list = khoaService.search(k);
 		if(list.isEmpty()) {
-			map.addAttribute("noResult", true);
+			map.addAttribute("dsKhoa", list);
 			return "khoa";
 		}
-		for(Khoa khoa : list) {
-			System.out.println(khoa.getMaKhoa());
-			System.out.println(khoa.getTenKhoa());
-		}
+		map.addAttribute("search", true);
 		map.addAttribute("dsKhoa", list);
-		map.addAttribute("searchTerm", searchTerm);
-		map.addAttribute("count", khoaService.count());
+		map.addAttribute("searchTerm", k);
+		map.addAttribute("result", khoaService.countSearchResult(k));
 		return "khoa";
 	}
 	
@@ -64,24 +61,24 @@ public class KhoaController {
 	
 	@RequestMapping(value = "/add-khoa", method = RequestMethod.POST)
 	public String saveKhoa(@ModelAttribute("khoa") @Valid Khoa khoa, BindingResult result, ModelMap map) {
-		System.out.println(khoa.getMaKhoa());
-		System.out.println(khoa.getTenKhoa());
-		
 		if(khoaService.existKey(khoa.getMaKhoa())) {
-			System.out.println("Kiem tra:" + khoa.getMaKhoa());
 			map.addAttribute("key", true);
+			map.addAttribute("edit", false);
+			map.addAttribute("delete", false);
 			return "khoaForm";
 		}
 		
 		if(result.hasErrors()) {
+			map.addAttribute("edit", false);
+			map.addAttribute("delete", false);
 			return "khoaForm";
 		}
 		
-		System.out.println("Khong kiem tra:" + khoa.getMaKhoa());
-		if(khoa.getMaKhoa() != null) {
-			khoaService.add(khoa);
-		}
-		return "redirect:/admin/khoa";
+		khoaService.add(khoa);
+		map.addAttribute("success", true);
+		map.addAttribute("insert", true);
+		map.addAttribute("tenKhoa", khoa.getTenKhoa());
+		return "khoaForm";
 	}
 	
 	@RequestMapping(value = "/edit-khoa", method = RequestMethod.GET)
@@ -93,28 +90,33 @@ public class KhoaController {
 	}
 	
 	@RequestMapping(value = "/edit-khoa", method = RequestMethod.POST)
-	public String updateKhoa(@ModelAttribute("khoa") Khoa khoa) {
-		if(khoa.getMaKhoa() != null) {
-			khoaService.update(khoa);
+	public String updateKhoa(@ModelAttribute("khoa") @Valid Khoa khoa, BindingResult result, ModelMap map) {
+		if(result.hasErrors()) {
+			map.addAttribute("edit", true);
+			map.addAttribute("delete", false);
+			return "khoaForm";
 		}
-		return "redirect:/admin/khoa";
+		khoaService.update(khoa);
+		map.addAttribute("success", true);
+		map.addAttribute("update", true);
+		map.addAttribute("tenKhoa", khoa.getTenKhoa());
+		return "khoaForm";
 	}
 	
 	@RequestMapping(value = "/delete-khoa", method = RequestMethod.GET)
 	public String removeKhoa(@RequestParam String maKhoa, ModelMap map) {
 		map.addAttribute("khoa", khoaService.findById(maKhoa));
 		map.addAttribute("edit", false);
-		map.addAttribute("delete", true);
+		map.addAttribute("remove", true);
 		return "khoaForm";
 	}
 	
 	@RequestMapping(value = "/delete-khoa", method = RequestMethod.POST)
-	public String deleteKhoa(@ModelAttribute("khoa") Khoa khoa) {
-		System.out.println(khoa.getMaKhoa());
-		System.out.println(khoa.getTenKhoa());
-		if(khoa.getMaKhoa() != null) {
-			khoaService.delete(khoa.getMaKhoa());
-		}
-		return "redirect:/admin/khoa";
+	public String deleteKhoa(@ModelAttribute("khoa") Khoa khoa, ModelMap map) {
+		khoaService.delete(khoa.getMaKhoa());
+		map.addAttribute("success", true);
+		map.addAttribute("delete", true);
+		map.addAttribute("tenKhoa", khoa.getTenKhoa());
+		return "khoaForm";
 	}
 }

@@ -72,9 +72,9 @@
             	<nav class="navbar navbar-expand-lg">
                 	<ul class="navbar-nav mr-auto">
                 		<li>
-	                   		<form class="form-inline my-2 my-lg-0" method="post" action="khoa" role="search">
-	                       		<input id="khoaName" name="searchTerm" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm khoa" aria-label="Search">
-	                          	<button class="btn btn-outline-success my-2 my-sm-0" title="Tìm kiếm">
+	                   		<form class="form-inline my-2 my-lg-0" method="get" action="search-khoa" role="search">
+	                       		<input id="khoaName" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm khoa" aria-label="Search">
+	                          	<button class="btn btn-outline-success my-2 my-sm-0" title="Tìm kiếm" type="submit">
 	                          		<i class="fas fa-search"></i>
 	                          	</button>
 	                        </form>
@@ -90,17 +90,27 @@
                	</nav>
                 <table class="table table-striped table-hover">
                     <c:choose>
-	                    <c:when test="${!noResult}">
+	                    <c:when test="${!empty dsKhoa}">
+	                    	<c:if test="${search}">
+	                    		<div class="form-group col-lg-12">
+				                	<div class="alert alert-success text-center text-uppercase font-weight-bold" role="alert">
+										Tìm thấy ${result} kết quả
+										<button class="close" data-dismiss="alert" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+				                </div>
+	                    	</c:if>
 	                    	<thead class="thead-bg ">
 		                        <tr>
 		                        	<th scope="col">#</th>
 		                            <th scope="col">Mã Khoa</th>
 		                            <th scope="col">Khoa</th>
-		                            <th scope="col">Thao tác</th>
+		                            <th scope="col">Thao Tác</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	<c:forEach end="${count}" items="${dsKhoa}" var="khoa" varStatus="loop">
+		                    	<c:forEach end="${result}" items="${dsKhoa}" var="khoa" varStatus="loop">
 		                    		<c:url var="updateLink" value="edit-khoa">
 		                    			<c:param name="maKhoa" value="${khoa.maKhoa}"></c:param>
 		                    		</c:url>		                    		
@@ -121,7 +131,11 @@
 		                    </tbody>
 	                    </c:when>
 	                    <c:otherwise>
-	                    	Không tìm thấy kết quả
+	                    	<div class="form-group col-lg-12">
+			                	<div class="alert alert-danger text-center text-uppercase font-weight-bold" role="alert">
+									Không tìm thấy kết quả
+								</div>
+			                </div>
 	                    </c:otherwise>
                     </c:choose>
                 </table>

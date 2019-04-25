@@ -59,30 +59,51 @@
 						</c:otherwise>
 					</c:choose>
 	                
-	                <c:if test="${delete}">
+	                <c:if test="${remove}">
 	                	<div class="form-group col-lg-12">
 		                	<div class="alert alert-danger text-center text-uppercase font-weight-bold" role="alert">
 								Bạn có chắc chắn muốn xóa ?
 							</div>
 		                </div>
 	                </c:if>
-	
-	                <div class="form-group col-lg-12 text-center">
-	                    <div class="btn-group" role="group" aria-label="Basic example">
-	                    	<c:choose>
-	                    		<c:when test="${edit}">
-	                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Cập nhật</button>
-	                    		</c:when>
-	                    		<c:when test="${delete}">
-	                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Xóa</button>
-	                    		</c:when>
-	                    		<c:otherwise>
-	                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Lưu</button>
-	                    		</c:otherwise>
-	                    	</c:choose>
-	                        <button type="button" onclick="location.href='khoa'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
-	                    </div>
-	                </div>
+	                <c:choose>
+	                	<c:when test="${success}">
+							<div class="form-group col-lg-12">
+			                	<div class="alert alert-success text-center" role="alert">
+									<c:if test="${insert}">
+										Thêm khoa <b>${tenKhoa}</b> thành công
+									</c:if>
+									<c:if test="${update}">
+										Cập nhật khoa <b>${tenKhoa}</b> thành công
+									</c:if>
+									<c:if test="${delete}">
+										Xóa khoa <b>${tenKhoa}</b> thành công
+									</c:if>
+									<button onclick="location.href='khoa'" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+			                </div>
+						</c:when>
+						<c:otherwise>
+							 <div class="form-group col-lg-12 text-center">
+			                    <div class="btn-group" role="group" aria-label="Basic example">
+			                    	<c:choose>
+			                    		<c:when test="${edit}">
+			                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Cập nhật</button>
+			                    		</c:when>
+			                    		<c:when test="${delete}">
+			                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Xóa</button>
+			                    		</c:when>
+			                    		<c:otherwise>
+			                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Lưu</button>
+			                    		</c:otherwise>
+			                    	</c:choose>
+			                        <button type="button" onclick="location.href='khoa'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
+			                    </div>
+			                </div>
+						</c:otherwise>
+	                </c:choose>
 	            </form:form>
             </div>
         </div>

@@ -8,6 +8,8 @@ public interface KhoaDao {
 	List<Khoa> findAll();
 
 	Khoa findById(String maKhoa);
+	
+	Boolean existKey(String pKey);
 
 	void add(Khoa khoa);
 
@@ -15,9 +17,9 @@ public interface KhoaDao {
 
 	Boolean delete(String maKhoa);
 	
-	Long count();
+	Long countList();
 	
-	Boolean existKey(String primaryKey);
+	Long countSearchResult(String keyword);
 	
 	List<String> searchAuto(String keyword);
 	

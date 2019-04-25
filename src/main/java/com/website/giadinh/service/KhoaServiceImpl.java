@@ -24,6 +24,11 @@ public class KhoaServiceImpl implements KhoaService {
 	public Khoa findById(String maKhoa) {
 		return khoaDao.findById(maKhoa);
 	}
+	
+	@Override
+	public Boolean existKey(String primaryKey) {
+		return khoaDao.existKey(primaryKey);
+	}
 
 	@Override
 	public void add(Khoa khoa) {
@@ -41,13 +46,13 @@ public class KhoaServiceImpl implements KhoaService {
 	}
 
 	@Override
-	public Long count() {
-		return khoaDao.count();
+	public Long countList() {
+		return khoaDao.countList();
 	}
-
+	
 	@Override
-	public Boolean existKey(String primaryKey) {
-		return khoaDao.existKey(primaryKey);
+	public Long countSearchResult(String keyword) {
+		return khoaDao.countSearchResult(keyword);
 	}
 
 	@Override
