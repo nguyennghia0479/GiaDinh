@@ -1,0 +1,43 @@
+.navbar-dark .navbar-nav .nav-link {
+    color: white
+}
+
+.vertical-menu {
+    width: 200px
+}
+
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #003262;
+    color: white;
+    font-weight: bold
+}
+
+.table .thead-bg {
+    background-color: #003262;
+    color: white
+}
+
+.breadcrumb-item a {
+    color: #003262;
+}
+
+.page-link {
+    color: #003262;
+}
+
+.page-item.active .page-link {
+    background-color: #003262;
+    border-color: #003262
+}

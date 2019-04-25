@@ -1,0 +1,17 @@
+.container {
+    margin-top: 5%;
+}
+
+.card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #003262;
+    border-bottom: 1px solid #003262;
+    color: white;
+    font-weight: bold;
+}
+
+.form-group.required label:after {
+    content: " *";
+    color: red;
+}
