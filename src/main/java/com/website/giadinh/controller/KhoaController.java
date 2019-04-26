@@ -116,6 +116,7 @@ public class KhoaController {
 		khoaService.delete(khoa.getMaKhoa());
 		map.addAttribute("success", true);
 		map.addAttribute("delete", true);
+		map.addAttribute("remove", true);
 		map.addAttribute("tenKhoa", khoa.getTenKhoa());
 		return "khoaForm";
 	}

@@ -30,8 +30,8 @@
 	                    	<c:when test="${edit}">
 	                    		<form:input path="maKhoa" type="text" class="form-control" placeholder="Nhập mã khoa" disabled="${edit}"/>
 	                    	</c:when>
-	                    	<c:when test="${delete}">
-	                    		<form:input path="maKhoa" type="text" class="form-control" placeholder="Nhập mã khoa" disabled="${delete}"/>
+	                    	<c:when test="${remove}">
+	                    		<form:input path="maKhoa" type="text" class="form-control" placeholder="Nhập mã khoa" disabled="${remove}"/>
 	                    	</c:when>
 	                    	<c:otherwise>
 	                    		<form:input path="maKhoa" type="text" name="maKhoa" class="form-control" placeholder="Nhập mã khoa"/>
@@ -44,10 +44,10 @@
 	                </div>
 	
 					<c:choose>
-						<c:when test="${delete}">
+						<c:when test="${remove}">
 							<div class="form-group required col-lg-12">
 			                    <label for="tenKhoa"><b>Tên khoa</b></label>
-			                    <form:input path="tenKhoa" type="text" name="tenKhoa" class="form-control" placeholder="Nhập tên khoa" readonly="${delete}"/>
+			                    <form:input path="tenKhoa" type="text" name="tenKhoa" class="form-control" placeholder="Nhập tên khoa" readonly="${remove}"/>
 			                </div>
 						</c:when>
 						<c:otherwise>
@@ -92,7 +92,7 @@
 			                    		<c:when test="${edit}">
 			                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Cập nhật</button>
 			                    		</c:when>
-			                    		<c:when test="${delete}">
+			                    		<c:when test="${remove}">
 			                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Xóa</button>
 			                    		</c:when>
 			                    		<c:otherwise>
