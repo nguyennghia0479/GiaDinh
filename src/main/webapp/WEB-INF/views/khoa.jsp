@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="tg" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,11 +13,10 @@
     <link rel="stylesheet" href='<spring:url value="/resources/css/bootstrap.min.css"></spring:url>'>
     <link rel="stylesheet" href='<spring:url value="/resources/css/jquery-ui.min.css"></spring:url>'>
     <link rel="stylesheet" href='<spring:url value="/resources/fontawesome/css/all.min.css"></spring:url>'>
+    <link rel="stylesheet" href='<spring:url value="/resources/css/listAdmin.css"></spring:url>'>
     <script src='<spring:url value="/resources/js/jquery-3.3.1.min.js"></spring:url>'></script>
     <script src='<spring:url value="/resources/js/jquery-ui.min.js"></spring:url>'></script>
     <script src='<spring:url value="/resources/js/bootstrap.min.js"></spring:url>'></script>
-     <script src='<spring:url value="/resources/js/all.min.js"></spring:url>'></script>
-    <link rel="stylesheet" href='<spring:url value="/resources/css/listAdmin.css"></spring:url>'>
     
     <script type="text/javascript">
 	    $(document).ready(function() {
@@ -82,19 +82,20 @@
                   	</ul>
                    	<ul class="navbar-nav">
                    		<li>
-                    		<button class="btn btn-outline-primary" onclick="location.href='add-khoa'">
+                    		<button title="Thêm" class="btn btn-outline-primary" onclick="location.href='add-khoa'">
                     			<i class="fas fa-plus-square"></i> Thêm mới
                     		</button>
                   		</li>
                   	</ul>
                	</nav>
+               	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" />
                 <table class="table table-striped table-hover">
                     <c:choose>
-	                    <c:when test="${!empty dsKhoa}">
+	                    <c:when test="${!empty pagedListHolder.pageList}">
 	                    	<c:if test="${search}">
 	                    		<div class="form-group col-lg-12">
-				                	<div class="alert alert-success text-center text-uppercase font-weight-bold" role="alert">
-										Tìm thấy ${result} kết quả
+				                	<div class="alert alert-success text-center" role="alert">
+										Tìm thấy <b>${result}</b> kết quả
 										<button class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
@@ -110,7 +111,7 @@
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	<c:forEach end="${result}" items="${dsKhoa}" var="khoa" varStatus="loop">
+		                    	<c:forEach end="${result}" items="${pagedListHolder.pageList}" var="khoa" varStatus="loop">
 		                    		<c:url var="updateLink" value="edit-khoa">
 		                    			<c:param name="maKhoa" value="${khoa.maKhoa}"></c:param>
 		                    		</c:url>		                    		
@@ -123,8 +124,8 @@
 		                    			<td>${khoa.maKhoa}</td>
 		                    			<td>${khoa.tenKhoa}</td>
 		                    			<td>
-		                    				<a href="${updateLink}" class="btn btn-outline-info"><i class="fas fa-edit"></i> Sửa</a>
-		                    				<a href="${deleteLink}" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Xóa</a>
+		                    				<a href="${updateLink}" title="Sửa" class="btn btn-outline-info"><i class="fas fa-edit"></i></a>
+		                    				<a href="${deleteLink}" title="Xóa" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
 		                    			</td>
 		                    		</tr>
 		                    	</c:forEach>
@@ -139,27 +140,7 @@
 	                    </c:otherwise>
                     </c:choose>
                 </table>
-                <div class="text-center">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+             	<jsp:include page="paging.jsp"/>
             </div>
         </div>
     </div>

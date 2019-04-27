@@ -23,6 +23,9 @@ public class KhoaDaoImpl implements KhoaDao {
 	@Override
 	public List<Khoa> findAll() {
 		Session session = this.sessionFactory.getCurrentSession();
+//		List<Khoa> list = session.createQuery("from Khoa").getResultList();
+//		return list;
+
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Khoa> cq = cb.createQuery(Khoa.class);
 		Root<Khoa> root = cq.from(Khoa.class);
@@ -36,11 +39,11 @@ public class KhoaDaoImpl implements KhoaDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.get(Khoa.class, maKhoa);
 	}
-	
+
 	@Override
-	public Boolean existKey(String primaryKey) {
+	public Boolean existKey(String pKey) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Khoa khoa = session.get(Khoa.class, primaryKey);
+		Khoa khoa = session.get(Khoa.class, pKey);
 		if (khoa != null) {
 			return true;
 		}
@@ -73,26 +76,29 @@ public class KhoaDaoImpl implements KhoaDao {
 	@Override
 	public Long countList() {
 		Session session = this.sessionFactory.getCurrentSession();
+//		Long count = (Long) session.createQuery("select count(maKhoa) from Khoa").getSingleResult();
+//		return count;
+
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Khoa> root = cq.from(Khoa.class);
 		cq.select(cb.count(root.get("maKhoa")));
 		Long count = session.createQuery(cq).getSingleResult();
-	//	Long count = (Long) session.createQuery("select count(maKhoa) from Khoa").getSingleResult();
 		return count;
 	}
-	
+
 	@Override
 	public Long countSearchResult(String keyword) {
 		Session session = this.sessionFactory.getCurrentSession();
+//		Long count = (Long) session.createQuery("select count(maKhoa) from Khoa where tenKhoa like :keyword")
+//				.setParameter("keyword", "%" + keyword + "%").getSingleResult();
+//		return count;
+		
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Khoa> root = cq.from(Khoa.class);
 		cq.select(cb.count(root.get("maKhoa"))).where(cb.like(root.get("tenKhoa"), "%" + keyword + "%"));
-	//	cq.select(root).where(cb.like(root.get("tenKhoa"), "%" + keyword + "%"));
 		Long count = session.createQuery(cq).getSingleResult();
-		System.out.println("keyword:" + keyword);
-		System.out.println("count:" + count);
 		return count;
 	}
 
@@ -100,9 +106,16 @@ public class KhoaDaoImpl implements KhoaDao {
 	@Override
 	public List<String> searchAuto(String keyword) {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<String> list = session.createQuery("select tenKhoa from Khoa where tenKhoa like :keyword")
-				.setParameter("keyword", "%" + keyword + "%").getResultList();
-		return list;
+//		List<String> list = session.createQuery("select tenKhoa from Khoa where tenKhoa like :keyword")
+//				.setParameter("keyword", "%" + keyword + "%").getResultList();
+//		return list;
+
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<String> cq = cb.createQuery(String.class);
+		Root<Khoa> root = cq.from(Khoa.class);
+		cq.select(root.get("tenKhoa")).where(cb.like(root.get("tenKhoa"), "%" + keyword + "%"));
+		Query query = session.createQuery(cq);
+		return query.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -111,6 +124,8 @@ public class KhoaDaoImpl implements KhoaDao {
 		Session session = this.sessionFactory.getCurrentSession();
 //		List<Khoa> list = session.createQuery("from Khoa where tenKhoa like :keyword")
 //				.setParameter("keyword", "%" + keyword + "%").getResultList();
+//		return list;
+
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Khoa> cq = cb.createQuery(Khoa.class);
 		Root<Khoa> root = cq.from(Khoa.class);

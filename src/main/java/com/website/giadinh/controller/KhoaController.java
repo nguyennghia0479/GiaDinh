@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,23 +25,35 @@ public class KhoaController {
 	@Autowired
 	private KhoaService khoaService;
 	
+	public void pagedListHolder(HttpServletRequest request, List<Khoa> list, Integer p) {
+		PagedListHolder<Khoa> pagedListHolder = new PagedListHolder<Khoa>(list);
+		pagedListHolder.setMaxLinkedPages(5);
+		request.getSession().setAttribute("pagedListHolder", pagedListHolder);
+		if(p == null) {
+			pagedListHolder.setPage(0);
+		}
+		else {
+			pagedListHolder.setPage(p);
+		}
+	}
+	
 	@RequestMapping(value = "/khoa", method = RequestMethod.GET)
-	public String listKhoa(ModelMap map) {
-		map.addAttribute("dsKhoa", khoaService.findAll());
+	public String listKhoa(HttpServletRequest request, ModelMap map, @RequestParam(required = false) Integer p) {
+		List<Khoa> list = khoaService.findAll();
+		pagedListHolder(request, list, p);
+		map.addAttribute("pageURL", "khoa");
 		map.addAttribute("result", khoaService.countList());
 		return "khoa";
 	}
 	
 	@RequestMapping(value = "/search-khoa", method = RequestMethod.GET)
-	public String search(@RequestParam String k, ModelMap map) {
+	public String search(HttpServletRequest request, @RequestParam(required = false) Integer p,
+			@RequestParam String k, ModelMap map) {
 		List<Khoa> list = khoaService.search(k);
-		if(list.isEmpty()) {
-			map.addAttribute("dsKhoa", list);
-			return "khoa";
-		}
+		pagedListHolder(request, list, p);
 		map.addAttribute("search", true);
-		map.addAttribute("dsKhoa", list);
-		map.addAttribute("searchTerm", k);
+		map.addAttribute("k", k);
+		map.addAttribute("pageURL", "search-khoa");
 		map.addAttribute("result", khoaService.countSearchResult(k));
 		return "khoa";
 	}

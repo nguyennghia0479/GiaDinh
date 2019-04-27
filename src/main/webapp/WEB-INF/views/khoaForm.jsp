@@ -5,15 +5,17 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
-<title>Khoa Form</title>
+<head>
+	<title>Khoa Form</title>
+	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href='<spring:url value="/resources/css/bootstrap.min.css"></spring:url>' id="bootstrap-css">
+    <link rel="stylesheet" href='<spring:url value="/resources/fontawesome/css/all.min.css"></spring:url>'>
+    <link rel="stylesheet" href='<spring:url value="/resources/css/formAdmin.css"></spring:url>'>
     <script src='<spring:url value="/resources/js/jquery-3.3.1.min.js"></spring:url>'></script>
     <script src='<spring:url value="/resources/js/bootstrap.min.js"></spring:url>'></script>
-    <link rel="stylesheet" href='<spring:url value="/resources/fontawesome/css/fontawesome.min.css"></spring:url>'>
-    <link rel="stylesheet" href='<spring:url value="/resources/fontawesome/css/solid.min.css"></spring:url>'>
-    <link rel="stylesheet" href='<spring:url value="/resources/css/formAdmin.css"></spring:url>'>
+</head>
 <body>
     <div class="container">
         <h2 class="text-center text-uppercase">Khoa Form
