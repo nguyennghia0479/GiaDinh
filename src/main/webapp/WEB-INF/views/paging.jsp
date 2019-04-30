@@ -68,7 +68,7 @@
 						</c:url>
 						<c:choose>
 							<c:when test="${pagedListHolder.page == p}">
-								<li class="page-item active"><a class="page-link" href="">${p+1}</a></li>
+								<li class="page-item active"><span class="page-link">${p+1}</span></li>
 							</c:when>
 							<c:otherwise>
 								 <li class="page-item">

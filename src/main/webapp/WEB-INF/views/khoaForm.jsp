@@ -8,7 +8,7 @@
 <head>
 	<title>Khoa Form</title>
 	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href='<spring:url value="/resources/css/bootstrap.min.css"></spring:url>' id="bootstrap-css">
     <link rel="stylesheet" href='<spring:url value="/resources/fontawesome/css/all.min.css"></spring:url>'>
@@ -101,7 +101,7 @@
 			                    			 <button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Lưu</button>
 			                    		</c:otherwise>
 			                    	</c:choose>
-			                        <button type="button" onclick="location.href='khoa'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
+			                        <button type="button" onclick="location.href='javascript:history.back()'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
 			                    </div>
 			                </div>
 						</c:otherwise>

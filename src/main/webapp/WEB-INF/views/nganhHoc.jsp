@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Khoa</title>
-    <link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
+	<title>Nganh Hoc</title>
+	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href='<spring:url value="/resources/css/bootstrap.min.css"></spring:url>'>
@@ -16,14 +16,6 @@
     <script src='<spring:url value="/resources/js/jquery-3.3.1.min.js"></spring:url>'></script>
     <script src='<spring:url value="/resources/js/jquery-ui.min.js"></spring:url>'></script>
     <script src='<spring:url value="/resources/js/bootstrap.min.js"></spring:url>'></script>
-    
-    <script type="text/javascript">
-	    $(document).ready(function() {
-			$('#khoaName').autocomplete({
-				source : '${pageContext.request.contextPath}/admin/searchAuto'
-			});
-		});
-    </script>
 </head>
 <body>
 	<jsp:include page="menu.jsp"></jsp:include>
@@ -32,7 +24,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
                 <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Khoa</li>
+                <li class="breadcrumb-item active" aria-current="page">Ngành Học</li>
             </ol>
         </nav>
         <div class="row ">
@@ -40,8 +32,8 @@
                 <div class="vertical-menu ">
                     <a href="#"><i class="fas fa-user-graduate"></i> Sinh Viên</a>
                     <a href="#"><i class="fas fa-user-tie"></i> Giảng Viên</a>
-                    <a href="khoa" class="active"><i class="fas fa-graduation-cap"></i> Khoa</a>
-                    <a href="#"><i class="fas fa-layer-group"></i> Ngành Học</a>
+                    <a href="khoa"><i class="fas fa-graduation-cap"></i> Khoa</a>
+                    <a href="nganhhoc" class="active"><i class="fas fa-layer-group"></i> Ngành Học</a>
                     <a href="#"><i class="fas fa-book"></i> Môn Học</a>
                     <a href="#"><i class="fas fa-building"></i> Phòng Học</a>
                     <a href="#"><i class="fas fa-chalkboard-teacher"></i> Lớp Học</a>
@@ -73,10 +65,10 @@
                   		</li>
                   	</ul>
                	</nav>
-               	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 	
+<%--                	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 	 --%>
                 <table class="table table-striped table-hover">
                     <c:choose>
-	                    <c:when test="${!empty pagedListHolder.pageList}">
+	                    <c:when test="${!empty nganhHoc}">
 	                    	<c:if test="${search}">
 	                    		<div class="form-group col-lg-12">
 				                	<div class="alert alert-success text-center" role="alert">
@@ -87,24 +79,26 @@
 	                    	<thead class="thead-bg ">
 		                        <tr>
 		                        	<th scope="col">#</th>
-		                            <th scope="col">Mã Khoa</th>
+		                            <th scope="col">Mã Ngành</th>
+		                            <th scope="col">Ngành Học</th>
 		                            <th scope="col">Khoa</th>
 		                            <th scope="col">Thao Tác</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	<c:forEach end="${result}" items="${pagedListHolder.pageList}" var="khoa" varStatus="loop">
+		                    	<c:forEach end="100" items="${nganhHoc}" var="nganhHoc" varStatus="loop">
 		                    		<c:url var="updateLink" value="edit-khoa">
-		                    			<c:param name="maKhoa" value="${khoa.maKhoa}"></c:param>
+		                    			<c:param name="maKhoa" value="${nganhHoc.maNganh}"></c:param>
 		                    		</c:url>		                    		
 		                    		<c:url var="deleteLink" value="delete-khoa">
-		                    			<c:param name="maKhoa" value="${khoa.maKhoa}"></c:param>
+		                    			<c:param name="maKhoa" value="${nganhHoc.maNganh}"></c:param>
 		                    		</c:url>
 		                    		
 		                    		<tr>
 		                    			<th>${loop.index+1}</th>
-		                    			<td>${khoa.maKhoa}</td>
-		                    			<td>${khoa.tenKhoa}</td>
+		                    			<td>${nganhHoc.maNganh}</td>
+		                    			<td>${nganhHoc.tenNganh}</td>
+		                    			<td>${nganhHoc.khoa.tenKhoa}</td>
 		                    			<td>
 		                    				<a href="${updateLink}" title="Sửa" class="btn btn-outline-info"><i class="fas fa-edit"></i></a>
 		                    				<a href="${deleteLink}" title="Xóa" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>

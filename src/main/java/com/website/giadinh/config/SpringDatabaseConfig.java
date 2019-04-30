@@ -15,7 +15,17 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.website.giadinh.entity.BuoiHoc;
+import com.website.giadinh.entity.GiangVien;
 import com.website.giadinh.entity.Khoa;
+import com.website.giadinh.entity.LopHoc;
+import com.website.giadinh.entity.MonHoc;
+import com.website.giadinh.entity.NganhHoc;
+import com.website.giadinh.entity.PhanCong;
+import com.website.giadinh.entity.PhongHoc;
+import com.website.giadinh.entity.SinhVien;
+import com.website.giadinh.entity.TaiKhoan;
+import com.website.giadinh.entity.ThoiKhoaBieu;
 
 @EnableTransactionManagement
 @PropertySource("classpath:/database/database.properties")
@@ -23,13 +33,14 @@ import com.website.giadinh.entity.Khoa;
 public class SpringDatabaseConfig {
 	@Autowired
 	Environment env;
-	
+
 	@Bean
 	public LocalSessionFactoryBean factoryBean() {
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 		factoryBean.setDataSource(dataSource());
 		factoryBean.setPackagesToScan(new String[] { "com.website.giadinh.entity" });
-		factoryBean.setAnnotatedClasses(Khoa.class);
+		factoryBean.setAnnotatedClasses(Khoa.class, NganhHoc.class, GiangVien.class, LopHoc.class, SinhVien.class,
+				TaiKhoan.class, PhongHoc.class, MonHoc.class, PhanCong.class, BuoiHoc.class, ThoiKhoaBieu.class);
 		factoryBean.setHibernateProperties(hibernateProperties());
 		return factoryBean;
 	}
