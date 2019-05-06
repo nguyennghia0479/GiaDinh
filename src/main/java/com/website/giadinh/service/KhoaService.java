@@ -9,13 +9,15 @@ public interface KhoaService {
 
 	Khoa findById(String maKhoa);
 	
-	Boolean existKey(String pKey);
+	Boolean isExistKey(String maKhoa);
+	
+	Boolean isExistReference(String maKhoa);
 
 	void add(Khoa khoa);
 
 	void update(Khoa khoa);
 
-	Boolean delete(String maKhoa);
+	void delete(Khoa khoa);
 	
 	Long countList();
 	

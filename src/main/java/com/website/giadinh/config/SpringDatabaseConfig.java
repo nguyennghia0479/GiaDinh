@@ -39,8 +39,8 @@ public class SpringDatabaseConfig {
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 		factoryBean.setDataSource(dataSource());
 		factoryBean.setPackagesToScan(new String[] { "com.website.giadinh.entity" });
-		factoryBean.setAnnotatedClasses(Khoa.class, NganhHoc.class, GiangVien.class, LopHoc.class, SinhVien.class,
-				TaiKhoan.class, PhongHoc.class, MonHoc.class, PhanCong.class, BuoiHoc.class, ThoiKhoaBieu.class);
+		factoryBean.setAnnotatedClasses(Khoa.class, NganhHoc.class, GiangVien.class, SinhVien.class, LopHoc.class,
+				TaiKhoan.class, MonHoc.class, PhongHoc.class, PhanCong.class, BuoiHoc.class, ThoiKhoaBieu.class);
 		factoryBean.setHibernateProperties(hibernateProperties());
 		return factoryBean;
 	}

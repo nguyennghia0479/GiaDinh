@@ -11,23 +11,28 @@ import javax.persistence.Table;
 @Table(name = "ThoiKhoaBieu")
 public class ThoiKhoaBieu implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private PhanCong phanCong;
-	private BuoiHoc buoiHoc;
+	@Id
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_PH")
 	private PhongHoc phongHoc;
-
+	
+	@Id
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaPC", nullable = false)
-	public PhanCong getPhanCong() {
-		return phanCong;
+	@JoinColumn(name = "Ma_BH")
+	private BuoiHoc buoiHoc;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_PC")
+	private PhanCong phanCong;
+
+	public PhongHoc getPhongHoc() {
+		return phongHoc;
 	}
 
-	public void setPhanCong(PhanCong phanCong) {
-		this.phanCong = phanCong;
+	public void setPhongHoc(PhongHoc phongHoc) {
+		this.phongHoc = phongHoc;
 	}
 
-	@Id()
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "maBH", nullable = false)
 	public BuoiHoc getBuoiHoc() {
 		return buoiHoc;
 	}
@@ -35,15 +40,12 @@ public class ThoiKhoaBieu implements java.io.Serializable {
 	public void setBuoiHoc(BuoiHoc buoiHoc) {
 		this.buoiHoc = buoiHoc;
 	}
-	
-	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaPhong", nullable = false)
-	public PhongHoc getPhongHoc() {
-		return phongHoc;
+
+	public PhanCong getPhanCong() {
+		return phanCong;
 	}
 
-	public void setPhongHoc(PhongHoc phongHoc) {
-		this.phongHoc = phongHoc;
+	public void setPhanCong(PhanCong phanCong) {
+		this.phanCong = phanCong;
 	}
 }

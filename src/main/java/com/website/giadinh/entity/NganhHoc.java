@@ -1,7 +1,10 @@
 package com.website.giadinh.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,17 +14,32 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.website.giadinh.validation.Name;
+
 @Entity
 @Table(name = "NganhHoc")
+@Access(AccessType.FIELD)
 public class NganhHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private String maNganh;
-	private String tenNganh;
-	private Khoa khoa;
-	private Set<LopHoc> lopHoc;
-
 	@Id
-	@Column(name = "MaNganh", length = 10)
+	@Column(name = "Ma_Nganh", length = 10)
+	@NotEmpty
+	private String maNganh;
+
+	@Column(name = "Ten_Nganh", length = 100)
+	@NotEmpty
+	@Name
+	private String tenNganh;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_Khoa")
+	private Khoa khoa;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nganhHoc")
+	private Set<LopHoc> lopHoc = new HashSet<LopHoc>();
+
 	public String getMaNganh() {
 		return maNganh;
 	}
@@ -30,7 +48,6 @@ public class NganhHoc implements java.io.Serializable {
 		this.maNganh = maNganh;
 	}
 
-	@Column(name = "TenNganh", length = 100)
 	public String getTenNganh() {
 		return tenNganh;
 	}
@@ -39,8 +56,6 @@ public class NganhHoc implements java.io.Serializable {
 		this.tenNganh = tenNganh;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaKhoa", nullable = false)
 	public Khoa getKhoa() {
 		return khoa;
 	}
@@ -49,7 +64,6 @@ public class NganhHoc implements java.io.Serializable {
 		this.khoa = khoa;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nganhHoc")
 	public Set<LopHoc> getLopHoc() {
 		return lopHoc;
 	}

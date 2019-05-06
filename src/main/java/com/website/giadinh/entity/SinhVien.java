@@ -1,8 +1,5 @@
 package com.website.giadinh.entity;
 
-import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,24 +12,26 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SinhVien")
-public class SinhVien implements java.io.Serializable {
+public class SinhVien extends Person implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name = "Ma_SV", length = 10)
 	private String maSV;
-	private String hoTen;
-	private String gioiTinh;
-	private String diaChi;
-	private String SDT;
-	private Date ngaySinh;
-	private String noiSinh;
-	private String email;
-	private byte[] hinhAnh;
+	
+	@Column(name = "Khoa")
 	private Integer khoa;
-	private Integer quyen;
+	
+	@Column(name = "Quyen", length = 10)
+	private String quyen;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_Lop")
 	private LopHoc lopHoc;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
 	private TaiKhoan taiKhoan;
 
-	@Id
-	@Column(name = "MaSV", length = 10)
 	public String getMaSV() {
 		return maSV;
 	}
@@ -41,79 +40,6 @@ public class SinhVien implements java.io.Serializable {
 		this.maSV = maSV;
 	}
 
-	@Column(name = "HoTen", length = 100)
-	public String getHoTen() {
-		return hoTen;
-	}
-
-	public void setHoTen(String hoTen) {
-		this.hoTen = hoTen;
-	}
-
-	@Column(name = "GioiTinh", length = 10)
-	public String getGioiTinh() {
-		return gioiTinh;
-	}
-
-	public void setGioiTinh(String gioiTinh) {
-		this.gioiTinh = gioiTinh;
-	}
-
-	@Column(name = "DiaChi", length = 255)
-	public String getDiaChi() {
-		return diaChi;
-	}
-
-	public void setDiaChi(String diaChi) {
-		this.diaChi = diaChi;
-	}
-
-	@Column(name = "SDT", length = 11)
-	public String getSDT() {
-		return SDT;
-	}
-
-	public void setSDT(String sDT) {
-		SDT = sDT;
-	}
-
-	@Column(name = "NgaySinh")
-	public Date getNgaySinh() {
-		return ngaySinh;
-	}
-
-	public void setNgaySinh(Date ngaySinh) {
-		this.ngaySinh = ngaySinh;
-	}
-
-	@Column(name = "NoiSinh", length = 255)
-	public String getNoiSinh() {
-		return noiSinh;
-	}
-
-	public void setNoiSinh(String noiSinh) {
-		this.noiSinh = noiSinh;
-	}
-
-	@Column(name = "Email", length = 255)
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	@Column(name = "HinhAnh", length = 50000000)
-	public byte[] getHinhAnh() {
-		return hinhAnh;
-	}
-
-	public void setHinhAnh(byte[] hinhAnh) {
-		this.hinhAnh = hinhAnh;
-	}
-
-	@Column(name = "Khoa")
 	public Integer getKhoa() {
 		return khoa;
 	}
@@ -122,17 +48,14 @@ public class SinhVien implements java.io.Serializable {
 		this.khoa = khoa;
 	}
 
-	@Column(name = "Quyen")
-	public Integer getQuyen() {
+	public String getQuyen() {
 		return quyen;
 	}
 
-	public void setQuyen(Integer quyen) {
+	public void setQuyen(String quyen) {
 		this.quyen = quyen;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaLop", nullable = false)
 	public LopHoc getLopHoc() {
 		return lopHoc;
 	}
@@ -141,8 +64,6 @@ public class SinhVien implements java.io.Serializable {
 		this.lopHoc = lopHoc;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
 	public TaiKhoan getTaiKhoan() {
 		return taiKhoan;
 	}

@@ -12,70 +12,61 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.website.giadinh.entity.Khoa;
+import com.website.giadinh.entity.LopHoc;
 import com.website.giadinh.entity.NganhHoc;
 
-@Repository("khoaDao")
-public class KhoaDaoImpl implements KhoaDao {
+@Repository("lopHocDao")
+public class LopHocDaoImpl implements LopHocDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
-	public List<Khoa> findAll() {
+	public List<LopHoc> findAll() {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<Khoa> cq = cb.createQuery(Khoa.class);
-		Root<Khoa> root = cq.from(Khoa.class);
-		cq.select(root);
-		List<Khoa> list = session.createQuery(cq).getResultList();
+		CriteriaQuery<LopHoc> cq = cb.createQuery(LopHoc.class);
+		Root<LopHoc> root = cq.from(LopHoc.class);
+		cq.select(root).orderBy(cb.asc(root.get("nganhHoc")));
+		List<LopHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
 
 	@Override
-	public Khoa findById(String maKhoa) {
+	public LopHoc findById(String maLop) {
 		Session session = this.sessionFactory.getCurrentSession();
-		return session.get(Khoa.class, maKhoa);
+		return session.get(LopHoc.class, maLop);
 	}
 
 	@Override
-	public Boolean isExistKey(String maKhoa) {
-		if (findById(maKhoa) == null) {
+	public Boolean isExistKey(String maLop) {
+		if (findById(maLop) == null) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public Boolean isExistReference(String maKhoa) {
-		Session session = this.sessionFactory.getCurrentSession();
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<NganhHoc> cq = cb.createQuery(NganhHoc.class);
-		Root<NganhHoc> root = cq.from(NganhHoc.class);
-		Join<NganhHoc, Khoa> join = root.join("khoa");
-		cq.select(root).where(cb.like(join.get("maKhoa"), maKhoa));
-		List<NganhHoc> list = session.createQuery(cq).getResultList();
-		if (list.isEmpty()) {
-			return false;
-		}
-		return true;
+	public Boolean isExistReference(String maLop) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void add(Khoa khoa) {
+	public void add(LopHoc lopHoc) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.save(khoa);
+		session.save(lopHoc);
 	}
 
 	@Override
-	public void update(Khoa khoa) {
+	public void update(LopHoc lopHoc) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.merge(khoa);
+		session.merge(lopHoc);
 	}
 
 	@Override
-	public void delete(Khoa khoa) {
+	public void delete(LopHoc lopHoc) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.delete(khoa);
+		session.delete(lopHoc);
 	}
 
 	@Override
@@ -83,8 +74,8 @@ public class KhoaDaoImpl implements KhoaDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<Khoa> root = cq.from(Khoa.class);
-		cq.select(cb.count(root.get("maKhoa")));
+		Root<LopHoc> root = cq.from(LopHoc.class);
+		cq.select(cb.count(root.get("maLop")));
 		Long count = session.createQuery(cq).getSingleResult();
 		return count;
 	}
@@ -94,9 +85,10 @@ public class KhoaDaoImpl implements KhoaDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<Khoa> root = cq.from(Khoa.class);
-		cq.select(cb.count(root.get("maKhoa"))).where(cb.or(cb.like(root.get("maKhoa"), "%" + keyword + "%"),
-				cb.like(root.get("tenKhoa"), "%" + keyword + "%")));
+		Root<LopHoc> root = cq.from(LopHoc.class);
+		Join<LopHoc, NganhHoc> join = root.join("nganhHoc");
+		cq.select(cb.count(root.get("maLop"))).where(cb.or(cb.like(root.get("maLop"), "%" + keyword + "%"),
+				cb.like(join.get("tenNganh"), "%" + keyword + "%")));
 		Long count = session.createQuery(cq).getSingleResult();
 		return count;
 	}
@@ -106,25 +98,27 @@ public class KhoaDaoImpl implements KhoaDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<String> cq = cb.createQuery(String.class);
-		Root<Khoa> root = cq.from(Khoa.class);
-		cq.select(root.get("maKhoa")).where((cb.like(root.get("maKhoa"), "%" + keyword + "%")));
+		Root<LopHoc> root = cq.from(LopHoc.class);
+		Join<LopHoc, NganhHoc> join = root.join("nganhHoc");
+		cq.select(root.get("maLop")).where(cb.like(root.get("maLop"), "%" + keyword + "%"));
 		List<String> list = session.createQuery(cq).getResultList();
 		if (list.isEmpty()) {
-			cq.select(root.get("tenKhoa")).where((cb.like(root.get("tenKhoa"), "%" + keyword + "%")));
+			cq.select(join.get("tenNganh")).where(cb.like(join.get("tenNganh"), "%" + keyword + "%"));
 			list = session.createQuery(cq).getResultList();
 		}
 		return list;
 	}
 
 	@Override
-	public List<Khoa> search(String keyword) {
+	public List<LopHoc> search(String keyword) {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<Khoa> cq = cb.createQuery(Khoa.class);
-		Root<Khoa> root = cq.from(Khoa.class);
-		cq.select(root).where(cb.or(cb.like(root.get("tenKhoa"), "%" + keyword + "%"),
-				cb.like(root.get("maKhoa"), "%" + keyword + "%")));
-		List<Khoa> list = session.createQuery(cq).getResultList();
+		CriteriaQuery<LopHoc> cq = cb.createQuery(LopHoc.class);
+		Root<LopHoc> root = cq.from(LopHoc.class);
+		Join<LopHoc, NganhHoc> join = root.join("nganhHoc");
+		cq.select(root).where(cb.or(cb.like(root.get("maLop"), "%" + keyword + "%"),
+				cb.like(join.get("tenNganh"), "%" + keyword + "%")));
+		List<LopHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
 }

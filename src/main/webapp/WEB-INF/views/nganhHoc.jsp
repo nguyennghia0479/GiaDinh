@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Nganh Hoc</title>
+	<title>Ngành Học</title>
 	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,6 +16,14 @@
     <script src='<spring:url value="/resources/js/jquery-3.3.1.min.js"></spring:url>'></script>
     <script src='<spring:url value="/resources/js/jquery-ui.min.js"></spring:url>'></script>
     <script src='<spring:url value="/resources/js/bootstrap.min.js"></spring:url>'></script>
+    
+    <script type="text/javascript">
+	    $(document).ready(function() {
+			$('#nganhHoc').autocomplete({
+				source : '${pageContext.request.contextPath}/admin/searchAuto-nganh-hoc'
+			});
+		});
+    </script>
 </head>
 <body>
 	<jsp:include page="menu.jsp"></jsp:include>
@@ -33,7 +41,7 @@
                     <a href="#"><i class="fas fa-user-graduate"></i> Sinh Viên</a>
                     <a href="#"><i class="fas fa-user-tie"></i> Giảng Viên</a>
                     <a href="khoa"><i class="fas fa-graduation-cap"></i> Khoa</a>
-                    <a href="nganhhoc" class="active"><i class="fas fa-layer-group"></i> Ngành Học</a>
+                    <a href="nganh-hoc" class="active"><i class="fas fa-layer-group"></i> Ngành Học</a>
                     <a href="#"><i class="fas fa-book"></i> Môn Học</a>
                     <a href="#"><i class="fas fa-building"></i> Phòng Học</a>
                     <a href="#"><i class="fas fa-chalkboard-teacher"></i> Lớp Học</a>
@@ -46,8 +54,8 @@
             	<nav class="navbar navbar-expand-lg">
                 	<ul class="navbar-nav mr-auto">
                 		<li>
-	                   		<form class="form-inline my-2 my-lg-0" method="get" action="search-khoa" role="search">
-	                       		<input id="khoaName" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm khoa" aria-label="Search">
+	                   		<form class="form-inline my-2 my-lg-0" method="get" action="search-nganh-hoc" role="search">
+	                       		<input id="nganhHoc" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm ngành học" aria-label="Search">
 	                          	<button class="btn btn-outline-success my-2 my-sm-0" title="Tìm kiếm" type="submit">
 	                          		<i class="fas fa-search"></i>
 	                          	</button>
@@ -56,8 +64,7 @@
                   	</ul>
                    	<ul class="navbar-nav">
                    		<li>   
-                   		<c:url value="add-khoa" var="addLink">
-                   				<c:param name="p" value="1"></c:param>
+                   			<c:url value="add-nganh-hoc" var="addLink">
                    			</c:url>                 		
                    			<a title="Thêm" class="btn btn-outline-primary" href="${addLink}">
                     			<i class="fas fa-plus-square"></i> Thêm mới
@@ -65,10 +72,10 @@
                   		</li>
                   	</ul>
                	</nav>
-<%--                	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 	 --%>
+               	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 	
                 <table class="table table-striped table-hover">
                     <c:choose>
-	                    <c:when test="${!empty nganhHoc}">
+	                    <c:when test="${!empty pagedListHolder.pageList}">
 	                    	<c:if test="${search}">
 	                    		<div class="form-group col-lg-12">
 				                	<div class="alert alert-success text-center" role="alert">
@@ -86,12 +93,14 @@
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	<c:forEach end="100" items="${nganhHoc}" var="nganhHoc" varStatus="loop">
-		                    		<c:url var="updateLink" value="edit-khoa">
-		                    			<c:param name="maKhoa" value="${nganhHoc.maNganh}"></c:param>
+		                    	<c:forEach end="${result}" items="${pagedListHolder.pageList}" var="nganhHoc" varStatus="loop">
+		                    		<c:url var="updateLink" value="edit-nganh-hoc">
+		                    			<c:param name="maNganh" value="${nganhHoc.maNganh}"></c:param>
+		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
 		                    		</c:url>		                    		
-		                    		<c:url var="deleteLink" value="delete-khoa">
-		                    			<c:param name="maKhoa" value="${nganhHoc.maNganh}"></c:param>
+		                    		<c:url var="deleteLink" value="delete-nganh-hoc">
+		                    			<c:param name="maNganh" value="${nganhHoc.maNganh}"></c:param>
+		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
 		                    		</c:url>
 		                    		
 		                    		<tr>

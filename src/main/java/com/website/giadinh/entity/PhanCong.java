@@ -1,6 +1,7 @@
 package com.website.giadinh.entity;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,19 +19,35 @@ import javax.persistence.Table;
 @Table(name = "PhanCong")
 public class PhanCong implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private Long maPC;
-	private Date ngayBD;
-	private Date ngayKT;
-	private Integer hocKy;
-	private Integer namHoc;
-	private GiangVien giangVien;
-	private LopHoc lopHoc;
-	private MonHoc monHoc;
-	private Set<ThoiKhoaBieu> tkb;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MaPC")
+	@Column(name = "Ma_PC")
+	private Long maPC;
+
+	@Column(name = "Ngay_BD")
+	private Date ngayBD;
+
+	@Column(name = "Ngay_KT")
+	private Date ngayKT;
+
+	@Column(name = "Hoc_Ky")
+	private Integer hocKy;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_GV")
+	private GiangVien giangVien;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_Lop")
+	private LopHoc lopHoc;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_MH")
+	private MonHoc monHoc;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phanCong")
+	private Set<ThoiKhoaBieu> thoiKhoaBieus = new HashSet<ThoiKhoaBieu>();
+
 	public Long getMaPC() {
 		return maPC;
 	}
@@ -39,7 +56,6 @@ public class PhanCong implements java.io.Serializable {
 		this.maPC = maPC;
 	}
 
-	@Column(name = "NgayBD")
 	public Date getNgayBD() {
 		return ngayBD;
 	}
@@ -48,7 +64,6 @@ public class PhanCong implements java.io.Serializable {
 		this.ngayBD = ngayBD;
 	}
 
-	@Column(name = "NgayKT")
 	public Date getNgayKT() {
 		return ngayKT;
 	}
@@ -57,7 +72,6 @@ public class PhanCong implements java.io.Serializable {
 		this.ngayKT = ngayKT;
 	}
 
-	@Column(name = "HocKy")
 	public Integer getHocKy() {
 		return hocKy;
 	}
@@ -66,17 +80,6 @@ public class PhanCong implements java.io.Serializable {
 		this.hocKy = hocKy;
 	}
 
-	@Column(name = "NamHoc")
-	public Integer getNamHoc() {
-		return namHoc;
-	}
-
-	public void setNamHoc(Integer namHoc) {
-		this.namHoc = namHoc;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaGV", nullable = false)
 	public GiangVien getGiangVien() {
 		return giangVien;
 	}
@@ -85,8 +88,6 @@ public class PhanCong implements java.io.Serializable {
 		this.giangVien = giangVien;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaLop", nullable = false)
 	public LopHoc getLopHoc() {
 		return lopHoc;
 	}
@@ -94,9 +95,7 @@ public class PhanCong implements java.io.Serializable {
 	public void setLopHoc(LopHoc lopHoc) {
 		this.lopHoc = lopHoc;
 	}
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaMH", nullable = false)
+
 	public MonHoc getMonHoc() {
 		return monHoc;
 	}
@@ -105,12 +104,11 @@ public class PhanCong implements java.io.Serializable {
 		this.monHoc = monHoc;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phanCong")
-	public Set<ThoiKhoaBieu> getTkb() {
-		return tkb;
+	public Set<ThoiKhoaBieu> getThoiKhoaBieus() {
+		return thoiKhoaBieus;
 	}
 
-	public void setTkb(Set<ThoiKhoaBieu> tkb) {
-		this.tkb = tkb;
+	public void setThoiKhoaBieus(Set<ThoiKhoaBieu> thoiKhoaBieus) {
+		this.thoiKhoaBieus = thoiKhoaBieus;
 	}
 }

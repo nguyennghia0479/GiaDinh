@@ -26,8 +26,13 @@ public class KhoaServiceImpl implements KhoaService {
 	}
 	
 	@Override
-	public Boolean existKey(String primaryKey) {
-		return khoaDao.existKey(primaryKey);
+	public Boolean isExistKey(String maKhoa) {
+		return khoaDao.isExistKey(maKhoa);
+	}
+	
+	@Override
+	public Boolean isExistReference(String maKhoa) {
+		return khoaDao.isExistReference(maKhoa);
 	}
 
 	@Override
@@ -41,8 +46,8 @@ public class KhoaServiceImpl implements KhoaService {
 	}
 
 	@Override
-	public Boolean delete(String maKhoa) {
-		return khoaDao.delete(maKhoa);
+	public void delete(Khoa khoa) {
+		khoaDao.delete(khoa);
 	}
 
 	@Override

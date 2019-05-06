@@ -1,5 +1,6 @@
 package com.website.giadinh.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,35 +14,37 @@ import javax.persistence.Table;
 @Table(name = "PhongHoc")
 public class PhongHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private String maPhong;
-	private String loaiPhong;
-	private Set<ThoiKhoaBieu> tkb;
-
 	@Id
-	@Column(name = "MaPhong", length = 10)
-	public String getMaPhong() {
-		return maPhong;
-	}
-
-	public void setMaPhong(String maPhong) {
-		this.maPhong = maPhong;
-	}
-
-	@Column(name =  "LoaiPhong", length = 20)
-	public String getLoaiPhong() {
-		return loaiPhong;
-	}
-
-	public void setLoaiPhong(String loaiPhong) {
-		this.loaiPhong = loaiPhong;
-	}
-
+	@Column(name = "Ma_PH", length = 10)
+	private String maPH;
+	
+	@Column(name = "Loai_PH", length = 10)
+	private String loaiPH;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phongHoc")
-	public Set<ThoiKhoaBieu> getTkb() {
-		return tkb;
+	private Set<ThoiKhoaBieu> thoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
+
+	public String getMaPH() {
+		return maPH;
 	}
 
-	public void setTkb(Set<ThoiKhoaBieu> tkb) {
-		this.tkb = tkb;
+	public void setMaPH(String maPH) {
+		this.maPH = maPH;
+	}
+
+	public String getLoaiPH() {
+		return loaiPH;
+	}
+
+	public void setLoaiPH(String loaiPH) {
+		this.loaiPH = loaiPH;
+	}
+
+	public Set<ThoiKhoaBieu> getThoiKhoaBieu() {
+		return thoiKhoaBieu;
+	}
+
+	public void setThoiKhoaBieu(Set<ThoiKhoaBieu> thoiKhoaBieu) {
+		this.thoiKhoaBieu = thoiKhoaBieu;
 	}
 }

@@ -1,5 +1,6 @@
 package com.website.giadinh.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,13 +14,25 @@ import javax.persistence.Table;
 @Table(name = "MonHoc")
 public class MonHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private String maMH;
-	private String tenMH;
-	private Integer soTC;
-	private Set<PhanCong> phanCong;
-
 	@Id
-	@Column(name = "MaMH", length = 10)
+	@Column(name = "Ma_MH", length = 10)
+	private String maMH;
+	
+	@Column(name = "Ten_MH", length = 100)
+	private String tenMH;
+	
+	@Column(name = "So_TC")
+	private Integer soTC;
+	
+	@Column(name = "Ly_Thuyet")
+	private Integer lyThuyet;
+	
+	@Column(name = "Thuc_Hanh")
+	private Integer thucHanh;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "monHoc")
+	private Set<PhanCong> phanCong = new HashSet<PhanCong>();
+
 	public String getMaMH() {
 		return maMH;
 	}
@@ -28,7 +41,6 @@ public class MonHoc implements java.io.Serializable {
 		this.maMH = maMH;
 	}
 
-	@Column(name = "TenMH", length = 100)
 	public String getTenMH() {
 		return tenMH;
 	}
@@ -37,7 +49,6 @@ public class MonHoc implements java.io.Serializable {
 		this.tenMH = tenMH;
 	}
 
-	@Column(name = "SoTC")
 	public Integer getSoTC() {
 		return soTC;
 	}
@@ -46,7 +57,22 @@ public class MonHoc implements java.io.Serializable {
 		this.soTC = soTC;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "monHoc")
+	public Integer getLyThuyet() {
+		return lyThuyet;
+	}
+
+	public void setLyThuyet(Integer lyThuyet) {
+		this.lyThuyet = lyThuyet;
+	}
+
+	public Integer getThucHanh() {
+		return thucHanh;
+	}
+
+	public void setThucHanh(Integer thucHanh) {
+		this.thucHanh = thucHanh;
+	}
+
 	public Set<PhanCong> getPhanCong() {
 		return phanCong;
 	}

@@ -3,20 +3,22 @@ package com.website.giadinh.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "TaiKhoan")
 public class TaiKhoan implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private String maTK;
-	private String matKhau;
-	private Integer quyen;
-	private SinhVien sinhVien;
-
 	@Id
-	@Column(name = "MaTK", length = 10)
+	@Column(name = "Ma_TK", length = 10)
+	private String maTK;
+	
+	@Column(name = "Mat_Khau")
+	private String matKhau;
+	
+	@Column(name = "Quyen", length = 10)
+	private String quyen;
+
 	public String getMaTK() {
 		return maTK;
 	}
@@ -25,7 +27,6 @@ public class TaiKhoan implements java.io.Serializable {
 		this.maTK = maTK;
 	}
 
-	@Column(name = "MatKhau", length = 50)
 	public String getMatKhau() {
 		return matKhau;
 	}
@@ -34,21 +35,11 @@ public class TaiKhoan implements java.io.Serializable {
 		this.matKhau = matKhau;
 	}
 
-	@Column(name = "Quyen")
-	public Integer getQuyen() {
+	public String getQuyen() {
 		return quyen;
 	}
 
-	public void setQuyen(Integer quyen) {
+	public void setQuyen(String quyen) {
 		this.quyen = quyen;
-	}
-
-	@OneToOne(mappedBy = "taiKhoan")
-	public SinhVien getSinhVien() {
-		return sinhVien;
-	}
-
-	public void setSinhVien(SinhVien sinhVien) {
-		this.sinhVien = sinhVien;
 	}
 }

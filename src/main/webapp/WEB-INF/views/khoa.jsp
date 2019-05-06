@@ -19,8 +19,8 @@
     
     <script type="text/javascript">
 	    $(document).ready(function() {
-			$('#khoaName').autocomplete({
-				source : '${pageContext.request.contextPath}/admin/searchAuto'
+			$('#khoa').autocomplete({
+				source : '${pageContext.request.contextPath}/admin/searchAuto-khoa'
 			});
 		});
     </script>
@@ -41,7 +41,7 @@
                     <a href="#"><i class="fas fa-user-graduate"></i> Sinh Viên</a>
                     <a href="#"><i class="fas fa-user-tie"></i> Giảng Viên</a>
                     <a href="khoa" class="active"><i class="fas fa-graduation-cap"></i> Khoa</a>
-                    <a href="#"><i class="fas fa-layer-group"></i> Ngành Học</a>
+                    <a href="nganh-hoc"><i class="fas fa-layer-group"></i> Ngành Học</a>
                     <a href="#"><i class="fas fa-book"></i> Môn Học</a>
                     <a href="#"><i class="fas fa-building"></i> Phòng Học</a>
                     <a href="#"><i class="fas fa-chalkboard-teacher"></i> Lớp Học</a>
@@ -55,7 +55,7 @@
                 	<ul class="navbar-nav mr-auto">
                 		<li>
 	                   		<form class="form-inline my-2 my-lg-0" method="get" action="search-khoa" role="search">
-	                       		<input id="khoaName" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm khoa" aria-label="Search">
+	                       		<input id="khoa" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm khoa" aria-label="Search">
 	                          	<button class="btn btn-outline-success my-2 my-sm-0" title="Tìm kiếm" type="submit">
 	                          		<i class="fas fa-search"></i>
 	                          	</button>
@@ -64,8 +64,7 @@
                   	</ul>
                    	<ul class="navbar-nav">
                    		<li>   
-                   		<c:url value="add-khoa" var="addLink">
-                   				<c:param name="p" value="1"></c:param>
+                   			<c:url value="add-khoa" var="addLink">
                    			</c:url>                 		
                    			<a title="Thêm" class="btn btn-outline-primary" href="${addLink}">
                     			<i class="fas fa-plus-square"></i> Thêm mới
@@ -96,9 +95,11 @@
 		                    	<c:forEach end="${result}" items="${pagedListHolder.pageList}" var="khoa" varStatus="loop">
 		                    		<c:url var="updateLink" value="edit-khoa">
 		                    			<c:param name="maKhoa" value="${khoa.maKhoa}"></c:param>
+		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
 		                    		</c:url>		                    		
 		                    		<c:url var="deleteLink" value="delete-khoa">
 		                    			<c:param name="maKhoa" value="${khoa.maKhoa}"></c:param>
+		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
 		                    		</c:url>
 		                    		
 		                    		<tr>

@@ -1,5 +1,6 @@
 package com.website.giadinh.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,13 +14,19 @@ import javax.persistence.Table;
 @Table(name = "BuoiHoc")
 public class BuoiHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private String maBH;
-	private Integer thu;
-	private Integer ca;
-	private Set<ThoiKhoaBieu> tkb;
-
 	@Id
-	@Column(name = "MaBH", length = 10)
+	@Column(name = "Ma_BH", length = 10)
+	private String maBH;
+	
+	@Column(name = "Thu", length = 10, unique = true)
+	private String thu = Thu.THU_HAI.thu;
+	
+	@Column(name = "Ca", length = 10, unique = true)
+	private String ca = Ca.CA_MOT.ca;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "buoiHoc")
+	private Set<ThoiKhoaBieu> thoiKhoaBieus = new HashSet<ThoiKhoaBieu>();
+
 	public String getMaBH() {
 		return maBH;
 	}
@@ -28,30 +35,27 @@ public class BuoiHoc implements java.io.Serializable {
 		this.maBH = maBH;
 	}
 
-	@Column(name = "Thu")
-	public Integer getThu() {
+	public String getThu() {
 		return thu;
 	}
 
-	public void setThu(Integer thu) {
+	public void setThu(String thu) {
 		this.thu = thu;
 	}
 
-	@Column(name = "Ca")
-	public Integer getCa() {
+	public String getCa() {
 		return ca;
 	}
 
-	public void setCa(Integer ca) {
+	public void setCa(String ca) {
 		this.ca = ca;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "buoiHoc")
-	public Set<ThoiKhoaBieu> getTkb() {
-		return tkb;
+	public Set<ThoiKhoaBieu> getThoiKhoaBieus() {
+		return thoiKhoaBieus;
 	}
 
-	public void setTkb(Set<ThoiKhoaBieu> tkb) {
-		this.tkb = tkb;
+	public void setThoiKhoaBieus(Set<ThoiKhoaBieu> thoiKhoaBieus) {
+		this.thoiKhoaBieus = thoiKhoaBieus;
 	}
 }

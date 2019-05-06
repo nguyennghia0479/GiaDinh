@@ -1,6 +1,6 @@
 package com.website.giadinh.entity;
 
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,29 +10,38 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "GiangVien")
-public class GiangVien implements java.io.Serializable {
+public class GiangVien extends Person implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private String maGV;
-	private String hoTen;
-	private String gioiTinh;
-	private String diaChi;
-	private String SDT;
-	private Date ngaySinh;
-	private String noiSinh;
-	private String email;
-	private byte[] hinhAnh;
-	private Integer thamNien;
-	private String trinhDo;
-	private Integer quyen;
-	private Khoa khoa;
-	private Set<PhanCong> phanCong;
-
 	@Id
-	@Column(name = "MaGV", length = 10)
+	@Column(name = "Ma_GV", length = 10)
+	private String maGV;
+
+	@Column(name = "Tham_Nien")
+	private Integer thamNien;
+
+	@Column(name = "Trinh_Do", length = 50)
+	private String trinhDo;
+
+	@Column(name = "Quyen", length = 10)
+	private String quyen;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ma_Khoa")
+	private Khoa khoa;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+	private TaiKhoan taiKhoan;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "giangVien")
+	private Set<PhanCong> phanCong = new HashSet<PhanCong>();
+
 	public String getMaGV() {
 		return maGV;
 	}
@@ -41,79 +50,6 @@ public class GiangVien implements java.io.Serializable {
 		this.maGV = maGV;
 	}
 
-	@Column(name = "HoTen", length = 100)
-	public String getHoTen() {
-		return hoTen;
-	}
-
-	public void setHoTen(String hoTen) {
-		this.hoTen = hoTen;
-	}
-
-	@Column(name = "GioiTinh", length = 10)
-	public String getGioiTinh() {
-		return gioiTinh;
-	}
-
-	public void setGioiTinh(String gioiTinh) {
-		this.gioiTinh = gioiTinh;
-	}
-
-	@Column(name = "DiaChi", length = 255)
-	public String getDiaChi() {
-		return diaChi;
-	}
-
-	public void setDiaChi(String diaChi) {
-		this.diaChi = diaChi;
-	}
-
-	@Column(name = "SDT", length = 11)
-	public String getSDT() {
-		return SDT;
-	}
-
-	public void setSDT(String sDT) {
-		SDT = sDT;
-	}
-
-	@Column(name = "NgaySinh")
-	public Date getNgaySinh() {
-		return ngaySinh;
-	}
-
-	public void setNgaySinh(Date ngaySinh) {
-		this.ngaySinh = ngaySinh;
-	}
-
-	@Column(name = "NoiSinh", length = 255)
-	public String getNoiSinh() {
-		return noiSinh;
-	}
-
-	public void setNoiSinh(String noiSinh) {
-		this.noiSinh = noiSinh;
-	}
-
-	@Column(name = "Email", length = 255)
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	@Column(name = "HinhAnh", length = 50000000)
-	public byte[] getHinhAnh() {
-		return hinhAnh;
-	}
-
-	public void setHinhAnh(byte[] hinhAnh) {
-		this.hinhAnh = hinhAnh;
-	}
-
-	@Column(name = "ThamNien")
 	public Integer getThamNien() {
 		return thamNien;
 	}
@@ -122,7 +58,6 @@ public class GiangVien implements java.io.Serializable {
 		this.thamNien = thamNien;
 	}
 
-	@Column(name = "TrinhDo", length = 50)
 	public String getTrinhDo() {
 		return trinhDo;
 	}
@@ -131,17 +66,14 @@ public class GiangVien implements java.io.Serializable {
 		this.trinhDo = trinhDo;
 	}
 
-	@Column(name = "Quyen")
-	public Integer getQuyen() {
+	public String getQuyen() {
 		return quyen;
 	}
 
-	public void setQuyen(Integer quyen) {
+	public void setQuyen(String quyen) {
 		this.quyen = quyen;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MaKhoa", nullable = false)
 	public Khoa getKhoa() {
 		return khoa;
 	}
@@ -150,7 +82,14 @@ public class GiangVien implements java.io.Serializable {
 		this.khoa = khoa;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "giangVien")
+	public TaiKhoan getTaiKhoan() {
+		return taiKhoan;
+	}
+
+	public void setTaiKhoan(TaiKhoan taiKhoan) {
+		this.taiKhoan = taiKhoan;
+	}
+
 	public Set<PhanCong> getPhanCong() {
 		return phanCong;
 	}

@@ -20,4 +20,54 @@ public class NganhHocServiceImpl implements NganhHocService {
 		return nganhHocDao.findAll();
 	}
 
+	@Override
+	public NganhHoc findById(String maNganh) {
+		return nganhHocDao.findById(maNganh);
+	}
+
+	@Override
+	public Boolean isExistKey(String maNganh) {
+		return nganhHocDao.isExistKey(maNganh);
+	}
+	
+	@Override
+	public Boolean isExistReference(String maNganh) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void add(NganhHoc nganhHoc) {
+		nganhHocDao.add(nganhHoc);
+	}
+
+	@Override
+	public void update(NganhHoc nganhHoc) {
+		nganhHocDao.update(nganhHoc);
+	}
+
+	@Override
+	public void delete(NganhHoc nganhHoc) {
+		nganhHocDao.delete(nganhHoc);
+	}
+
+	@Override
+	public Long countList() {
+		return nganhHocDao.countList();
+	}
+
+	@Override
+	public Long countSearchResult(String keyword) {
+		return nganhHocDao.countSearchResult(keyword);
+	}
+
+	@Override
+	public List<String> searchAuto(String keyword) {
+		return nganhHocDao.searchAuto(keyword);
+	}
+
+	@Override
+	public List<NganhHoc> search(String keyword) {
+		return nganhHocDao.search(keyword);
+	}
 }

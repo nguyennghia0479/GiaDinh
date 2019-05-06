@@ -1,5 +1,7 @@
 package com.website.giadinh.entity;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,19 +16,26 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.website.giadinh.validation.Name;
 
-
 @Entity
 @Table(name = "Khoa")
 public class Khoa implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private String maKhoa;
-	private String tenKhoa;
-	private Set<NganhHoc> nganhHoc;
-	private List<GiangVien> giangVien;
-
-	@NotEmpty
 	@Id
-	@Column(name = "MaKhoa", length = 10)
+	@Column(name = "Ma_Khoa", length = 10)
+	@NotEmpty
+	private String maKhoa;
+
+	@Column(name = "Ten_Khoa", length = 100)
+	@NotEmpty
+	@Name
+	private String tenKhoa;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khoa")
+	private Set<NganhHoc> nganhHoc = new HashSet<NganhHoc>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khoa")
+	private List<GiangVien> giangVien = new ArrayList<GiangVien>();
+
 	public String getMaKhoa() {
 		return maKhoa;
 	}
@@ -35,9 +44,6 @@ public class Khoa implements java.io.Serializable {
 		this.maKhoa = maKhoa;
 	}
 
-	@NotEmpty
-	@Name
-	@Column(name = "TenKhoa", length = 100)
 	public String getTenKhoa() {
 		return tenKhoa;
 	}
@@ -46,7 +52,6 @@ public class Khoa implements java.io.Serializable {
 		this.tenKhoa = tenKhoa;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khoa")
 	public Set<NganhHoc> getNganhHoc() {
 		return nganhHoc;
 	}
@@ -55,7 +60,6 @@ public class Khoa implements java.io.Serializable {
 		this.nganhHoc = nganhHoc;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khoa")
 	public List<GiangVien> getGiangVien() {
 		return giangVien;
 	}
