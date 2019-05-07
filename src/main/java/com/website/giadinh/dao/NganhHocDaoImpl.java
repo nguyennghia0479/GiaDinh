@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.website.giadinh.entity.Khoa;
+import com.website.giadinh.entity.LopHoc;
 import com.website.giadinh.entity.NganhHoc;
 
 @Repository("nganhHocDao")
@@ -47,8 +48,17 @@ public class NganhHocDaoImpl implements NganhHocDao {
 
 	@Override
 	public Boolean isExistReference(String maNganh) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<LopHoc> cq = cb.createQuery(LopHoc.class);
+		Root<LopHoc> root = cq.from(LopHoc.class);
+		Join<LopHoc, NganhHoc> join = root.join("nganhHoc");
+		cq.select(root).where(cb.like(join.get("maNganh"), maNganh));
+		List<LopHoc> list = session.createQuery(cq).getResultList();
+		if(list.isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

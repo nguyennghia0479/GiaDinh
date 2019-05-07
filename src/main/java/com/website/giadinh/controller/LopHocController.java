@@ -18,7 +18,7 @@ import com.website.giadinh.service.NganhHocService;
 
 //@Controller
 @RequestMapping(value = "/admin")
-public class LopHocController extends PagedListHolderCustom<LopHoc> {
+public class LopHocController extends PageController<LopHoc> {
 	@Autowired
 	private LopHocService lopHocService;
 
@@ -36,6 +36,18 @@ public class LopHocController extends PagedListHolderCustom<LopHoc> {
 			pagedListHolder.setPage(p);
 		}
 	}
+	
+	@Override
+	public String getReturnPage(Integer p) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getReturnPage(String k, Integer p) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@RequestMapping(value = "/lop-hoc", method = RequestMethod.GET)
 	public String listLopHoc(HttpServletRequest request, @RequestParam(required = false) Integer p, ModelMap map) {
@@ -43,6 +55,18 @@ public class LopHocController extends PagedListHolderCustom<LopHoc> {
 		pagedListHolder(request, list, p);
 		map.addAttribute("pageURL", "lop-hoc");
 		map.addAttribute("result", lopHocService.countList());
+		return "lopHoc";
+	}
+
+	@RequestMapping(value = "/lop-hoc", method = RequestMethod.GET)
+	public String searchLopHoc(HttpServletRequest request, @RequestParam(required = false) Integer p,
+			@RequestParam String k, ModelMap map) {
+		List<LopHoc> list = lopHocService.search(k);
+		pagedListHolder(request, list, p);
+		map.addAttribute("search", true);
+		map.addAttribute("k", k);
+		map.addAttribute("pageURL", "lop-hoc");
+		map.addAttribute("result", lopHocService.countSearchResult(k));
 		return "lopHoc";
 	}
 }

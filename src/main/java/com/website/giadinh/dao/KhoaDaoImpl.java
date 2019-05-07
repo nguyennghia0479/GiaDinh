@@ -26,7 +26,7 @@ public class KhoaDaoImpl implements KhoaDao {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Khoa> cq = cb.createQuery(Khoa.class);
 		Root<Khoa> root = cq.from(Khoa.class);
-		cq.select(root);
+		cq.select(root).orderBy(cb.asc(root.get("tenKhoa")));
 		List<Khoa> list = session.createQuery(cq).getResultList();
 		return list;
 	}
@@ -107,10 +107,10 @@ public class KhoaDaoImpl implements KhoaDao {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<String> cq = cb.createQuery(String.class);
 		Root<Khoa> root = cq.from(Khoa.class);
-		cq.select(root.get("maKhoa")).where((cb.like(root.get("maKhoa"), "%" + keyword + "%")));
+		cq.select(root.get("tenKhoa")).where((cb.like(root.get("tenKhoa"), "%" + keyword + "%")));
 		List<String> list = session.createQuery(cq).getResultList();
 		if (list.isEmpty()) {
-			cq.select(root.get("tenKhoa")).where((cb.like(root.get("tenKhoa"), "%" + keyword + "%")));
+			cq.select(root.get("maKhoa")).where((cb.like(root.get("maKhoa"), "%" + keyword + "%")));
 			list = session.createQuery(cq).getResultList();
 		}
 		return list;

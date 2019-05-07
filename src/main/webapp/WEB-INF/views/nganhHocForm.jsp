@@ -47,15 +47,8 @@
 					
 					<div class="form-group required col-lg-12">
 						<label for="tenNganh"><b>Tên ngành học</b></label>
-						<c:choose>
-							<c:when test="${remove}">
-				            	<form:input path="tenNganh" type="text" class="form-control" placeholder="Nhập tên ngành học" readonly="${remove}"/>
-							</c:when>
-							<c:otherwise>
-				             	<form:input path="tenNganh" type="text" class="form-control" placeholder="Nhập tên ngành học" />
-				                <form:errors path="tenNganh" cssStyle="color:red"></form:errors>
-							</c:otherwise>
-						</c:choose>
+						<form:input path="tenNganh" type="text" class="form-control" placeholder="Nhập tên ngành học" readonly="${remove}"/>
+				    	<form:errors path="tenNganh" cssStyle="color:red"></form:errors>
 					</div>
 					
 					<div class="form-group required col-lg-12">
@@ -90,16 +83,18 @@
 	                	<c:when test="${success}">
 							<div class="form-group col-lg-12">
 			                	<div class="alert alert-success text-center" role="alert">
-									<c:if test="${add}">
-										Thêm ngành <b>${tenNganh}</b> thành công
-									</c:if>
-									<c:if test="${edit}">
-										Cập nhật ngành <b>${tenNganh}</b> thành công
-									</c:if>
-									<c:if test="${remove}">
-										Xóa ngành <b>${tenNganh}</b> thành công
-									</c:if>
-									<button onclick="location.href='nganh-hoc'" class="close" data-dismiss="alert" aria-label="Close">
+			                		<c:choose>
+			                			<c:when test="${edit}">
+			                				Cập nhật ngành <b>${tenNganh}</b> thành công
+			                			</c:when>
+			                			<c:when test="${remove}">
+											Xóa ngành <b>${tenNganh}</b> thành công
+			                			</c:when>
+			                			<c:otherwise>
+			                				Thêm ngành <b>${tenNganh}</b> thành công
+			                			</c:otherwise>	
+			                		</c:choose>
+									<button onclick="location.href='${pageURL}'" class="close" data-dismiss="alert" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
@@ -109,20 +104,19 @@
 							 <div class="form-group col-lg-12 text-center">
 			                    <div class="btn-group" role="group" aria-label="Basic example">
 			                    	<c:choose>
-			                    		<c:when test="${add}">
-			                    			<button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Lưu</button>
-			                    			<button type="button" onclick="location.href='nganh-hoc'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
-			                    		</c:when>
 			                    		<c:when test="${edit}">
 			                    			<button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Cập nhật</button>
 			                    		</c:when>
 			                    		<c:when test="${remove}">
 			                    			<button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Xóa</button>
 			                    		</c:when>
+			                    		<c:when test="${announceReference}">
+			                    		</c:when>
+			                    		<c:otherwise>
+			                    			<button type="submit" class="btn btn-outline-success"><i class="fas fa-check-square"></i> Lưu</button>
+			                    		</c:otherwise>
 			                    	</c:choose>
-			                    	<c:if test="${!add}">
-			                    		<button type="button" onclick="location.href='nganh-hoc?p=${p}'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
-			                    	</c:if>
+			                    	<button type="button" onclick="location.href='${pageURL}'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
 			                    </div>
 			                </div>
 						</c:otherwise>

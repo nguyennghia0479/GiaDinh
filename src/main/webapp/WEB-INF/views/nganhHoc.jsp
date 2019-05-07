@@ -51,10 +51,11 @@
                 </div>
             </div>
             <div class="col-sm-10 ">
+            	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 
             	<nav class="navbar navbar-expand-lg">
                 	<ul class="navbar-nav mr-auto">
                 		<li>
-	                   		<form class="form-inline my-2 my-lg-0" method="get" action="search-nganh-hoc" role="search">
+	                   		<form class="form-inline my-2 my-lg-0" method="get" action="nganh-hoc" role="search">
 	                       		<input id="nganhHoc" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm ngành học" aria-label="Search">
 	                          	<button class="btn btn-outline-success my-2 my-sm-0" title="Tìm kiếm" type="submit">
 	                          		<i class="fas fa-search"></i>
@@ -65,14 +66,17 @@
                    	<ul class="navbar-nav">
                    		<li>   
                    			<c:url value="add-nganh-hoc" var="addLink">
+                   				<c:param name="p" value="${pagedListHolder.page}"></c:param>
+                   				<c:if test="${search}">
+                    				<c:param name="k" value="${k}"></c:param>
+                    			</c:if>
                    			</c:url>                 		
                    			<a title="Thêm" class="btn btn-outline-primary" href="${addLink}">
                     			<i class="fas fa-plus-square"></i> Thêm mới
                     		</a>
                   		</li>
                   	</ul>
-               	</nav>
-               	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 	
+               	</nav>	
                 <table class="table table-striped table-hover">
                     <c:choose>
 	                    <c:when test="${!empty pagedListHolder.pageList}">
@@ -97,10 +101,16 @@
 		                    		<c:url var="updateLink" value="edit-nganh-hoc">
 		                    			<c:param name="maNganh" value="${nganhHoc.maNganh}"></c:param>
 		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
+		                    			<c:if test="${search}">
+		                    				<c:param name="k" value="${k}"></c:param>
+		                    			</c:if>
 		                    		</c:url>		                    		
 		                    		<c:url var="deleteLink" value="delete-nganh-hoc">
 		                    			<c:param name="maNganh" value="${nganhHoc.maNganh}"></c:param>
 		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
+		                    			<c:if test="${search}">
+		                    				<c:param name="k" value="${k}"></c:param>
+		                    			</c:if>
 		                    		</c:url>
 		                    		
 		                    		<tr>
