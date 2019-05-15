@@ -25,5 +25,5 @@ public interface NganhHocService {
 
 	List<String> searchAuto(String keyword);
 
-	List<NganhHoc> search(String keyword);
+	List<NganhHoc> search(String keyword);	
 }

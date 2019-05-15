@@ -15,10 +15,10 @@ import javax.persistence.Table;
 public class PhongHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_PH", length = 10)
+	@Column(name = "maPhong", length = 10)
 	private String maPH;
 	
-	@Column(name = "Loai_PH", length = 10)
+	@Column(name = "loaiPhong", length = 10)
 	private String loaiPH;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phongHoc")

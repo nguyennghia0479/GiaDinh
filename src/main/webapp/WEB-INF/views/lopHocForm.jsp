@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Mẫu Đơn Ngành Học</title>
+	<title>Mẫu Đơn Lớp Học</title>
 	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,27 +17,27 @@
     <script src='<spring:url value="/resources/js/bootstrap.min.js"></spring:url>'></script>
 </head>
 <body>
-    <div class="container">
-        <h2 class="text-center text-uppercase">Mẫu Đơn Ngành Học
+	<div class="container">
+        <h2 class="text-center text-uppercase">Mẫu Đơn Lớp Học
         </h2>
         <div class="card">
             <div class="card-header">
-               	Ngành Học
+               	Lớp Học
             </div>
             <div class="card-body">
-	            <form:form method="post" modelAttribute="nganhHoc">
+	            <form:form method="post" modelAttribute="lopHoc">
 	            	<c:if test="${success}">
 	            		<div class="form-group col-lg-12">
 		                	<div class="alert alert-success text-center" role="alert">
 		                		<c:choose>
 		                			<c:when test="${add}">
-										Thêm ngành <b>${tenNganh}</b> thành công
+										Thêm lớp học <b>${maLop}</b> thành công
 		                			</c:when>
 		                			<c:when test="${edit}">
-		                				Cập nhật ngành <b>${tenNganh}</b> thành công
+		                				Cập nhật lớp học <b>${maLop}</b> thành công
 		                			</c:when>
 		                			<c:otherwise>
-		                				Xóa ngành <b>${tenNganh}</b> thành công
+		                				Xóa lớp học <b>${maLop}</b> thành công
 		                			</c:otherwise>	
 		                		</c:choose>
 								<button onclick="location.href='${pageURL}'" class="close" data-dismiss="alert" aria-label="Close">
@@ -52,43 +52,37 @@
 								Bạn có chắc chắn muốn xóa ?
 							</div>
 		                </div>
-	                </c:if>
+	                </c:if>         
 	                <c:if test="${announceReference}">
 	                	<div class="form-group col-lg-12">
 		                	<div class="alert alert-warning text-center" role="alert">
-								Ngành học bạn chọn xóa đang được tham chiếu.
+								Lớp học bạn chọn xóa đang được tham chiếu.
 								<br>
-								Để xóa Ngành học, bạn hãy xóa hoặc cập nhật <a href="lop-hoc" class="link-warning">Lớp Học</a> 
-								tham chiếu tới Ngành học khác.
+								Để xóa Lớp học, bạn hãy xóa hoặc cập nhật <a href="sinh-vien" class="link-warning">Sinh Vien</a> 
+								tham chiếu tới Lớp học khác.
 							</div>
 		                </div>
 	                </c:if>
-	            	
+	            
 	                <div class="form-group required col-lg-12">
-	                	<label for="maNganh"><b>Mã ngành</b></label>
-                   		<form:input path="maNganh" class="form-control" placeholder="Nhập mã ngành học" maxlength="10" disabled="${!add}"/>
+	                	<label for="maLop"><b>Mã lớp</b></label>
+                   		<form:input path="maLop" class="form-control" placeholder="Nhập mã lớp học" maxlength="10" disabled="${!add}"/>
                    		<c:if test="${existKey}">
-                   			<div style="color:red">Mã ngành vừa nhập đã tồn tại</div>
+                   			<div style="color:red">Mã lớp vừa nhập đã tồn tại</div>
                    		</c:if>
-                   		<form:errors path="maNganh" cssClass="error"/>
+                   		<form:errors path="maLop" cssClass="error"/>
 	                </div>
 					
 					<div class="form-group required col-lg-12">
-						<label for="tenNganh"><b>Tên ngành học</b></label>
-						<form:input path="tenNganh" class="form-control" placeholder="Nhập tên ngành học" maxlength="100" readonly="${remove}"/>
-				    	<form:errors path="tenNganh" cssClass="error"/>
-					</div>
-					
-					<div class="form-group required col-lg-12">
-						<label for="khoa"><b>Khoa</b></label>
-						<form:select path="khoa.maKhoa" class="form-control" disabled="${remove}">
-							<form:option value="NONE" label="Chọn khoa" cssClass="option"/>
-							<form:options items="${khoaList}"/>
+						<label for="nganhHoc"><b>Chuyên ngành</b></label>
+						<form:select path="nganhHoc.maNganh" class="form-control" disabled="${remove}">
+							<form:option value="NONE" label="Chọn ngành học" cssClass="option"/>
+							<form:options items="${nganhHocList}"/>
 						</form:select>
-						<form:errors path="khoa" cssClass="error"/>
+						<form:errors path="nganhHoc" cssClass="error"/>
 					</div>
 	                
-	          		<c:if test="${!success}">
+	               <c:if test="${!success}">
 						 <div class="form-group col-lg-12 text-center">
 		                    <div class="btn-group" role="group" aria-label="Basic example">
 		                    	<c:choose>
@@ -105,7 +99,7 @@
 		                    	<button type="button" onclick="location.href='${pageURL}'" class="btn btn-outline-secondary"><i class="fas fa-times"></i> Hủy</button>
 		                    </div>
 		                </div>
-					</c:if>	
+					</c:if>
 	            </form:form>
             </div>
         </div>

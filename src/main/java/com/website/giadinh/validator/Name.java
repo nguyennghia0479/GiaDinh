@@ -1,4 +1,4 @@
-package com.website.giadinh.validation;
+package com.website.giadinh.validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = NameValidation.class)
+@Constraint(validatedBy = NameValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.METHOD })
 public @interface Name {

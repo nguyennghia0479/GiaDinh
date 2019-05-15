@@ -13,26 +13,32 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "GiangVien")
 public class GiangVien extends Person implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_GV", length = 10)
+	@Column(name = "maGV", length = 10)
+	@NotEmpty
 	private String maGV;
 
-	@Column(name = "Tham_Nien")
+	@Column(name = "thamNien")
+	@Min(0)
+	@Max(50)
+	@NotNull
 	private Integer thamNien;
 
-	@Column(name = "Trinh_Do", length = 50)
+	@Column(name = "trinhDo", length = 50)
 	private String trinhDo;
 
-	@Column(name = "Quyen", length = 10)
-	private String quyen;
-
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_Khoa")
+	@JoinColumn(name = "maKhoa")
 	private Khoa khoa;
 	
 	@OneToOne(fetch = FetchType.EAGER)
@@ -64,14 +70,6 @@ public class GiangVien extends Person implements java.io.Serializable {
 
 	public void setTrinhDo(String trinhDo) {
 		this.trinhDo = trinhDo;
-	}
-
-	public String getQuyen() {
-		return quyen;
-	}
-
-	public void setQuyen(String quyen) {
-		this.quyen = quyen;
 	}
 
 	public Khoa getKhoa() {

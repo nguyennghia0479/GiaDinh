@@ -3,6 +3,7 @@ package com.website.giadinh.service;
 import java.util.List;
 
 import com.website.giadinh.entity.LopHoc;
+import com.website.giadinh.entity.NganhHoc;
 
 public interface LopHocService {
 	List<LopHoc> findAll();
@@ -26,4 +27,6 @@ public interface LopHocService {
 	List<String> searchAuto(String keyword);
 	
 	List<LopHoc> search(String keyword);
+	
+	List<NganhHoc> getNganhHocList();
 }

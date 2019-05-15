@@ -29,7 +29,6 @@ public class KhoaController extends PageController<Khoa> {
 	public void pagedListHolder(HttpServletRequest request, List<Khoa> list, Integer p) {
 		PagedListHolder<Khoa> pagedListHolder = new PagedListHolder<Khoa>(list);
 		pagedListHolder.setMaxLinkedPages(5);
-		pagedListHolder.setPageSize(2);
 		request.getSession().setAttribute("pagedListHolder", pagedListHolder);
 		if (p == null) {
 			pagedListHolder.setPage(0);
@@ -74,12 +73,11 @@ public class KhoaController extends PageController<Khoa> {
 
 	@RequestMapping(value = "/add-khoa", method = RequestMethod.GET)
 	public String addKhoa(@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
 		map.addAttribute("khoa", new Khoa());
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("add", true);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 		return "khoaForm";
 	}
@@ -87,11 +85,10 @@ public class KhoaController extends PageController<Khoa> {
 	@RequestMapping(value = "/add-khoa", method = RequestMethod.POST)
 	public String saveKhoa(@ModelAttribute("khoa") @Valid Khoa khoa, BindingResult result, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("add", true);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
 		if (khoaService.isExistKey(khoa.getMaKhoa())) {
@@ -109,16 +106,26 @@ public class KhoaController extends PageController<Khoa> {
 		return "khoaForm";
 	}
 
-	@RequestMapping(value = "/edit-khoa", method = RequestMethod.GET)
-	public String editKhoa(@RequestParam String maKhoa, @RequestParam Integer p,
-			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
+	@RequestMapping(value = { "/edit-khoa", "/delete-khoa" }, method = RequestMethod.GET)
+	public String getKhoa(@RequestParam String maKhoa, @RequestParam Integer p,
+			@RequestParam(required = false) String k, ModelMap map, HttpServletRequest request) {
+		String servletPath = request.getServletPath().substring(7).toString();
 		map.addAttribute("khoa", khoaService.findById(maKhoa));
-		map.addAttribute("edit", true);
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
+		}
+
+		if (servletPath.equalsIgnoreCase("edit-khoa")) {
+			map.addAttribute("edit", true);
+		} else {
+			if (khoaService.isExistReference(maKhoa)) {
+				map.addAttribute("announceReference", true);
+				return "khoaForm";
+			}
+
+			map.addAttribute("remove", true);
+			map.addAttribute("announceRemove", true);
 		}
 		return "khoaForm";
 	}
@@ -126,59 +133,33 @@ public class KhoaController extends PageController<Khoa> {
 	@RequestMapping(value = "/edit-khoa", method = RequestMethod.POST)
 	public String updateKhoa(@ModelAttribute("khoa") @Valid Khoa khoa, BindingResult result, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("edit", true);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
 		if (result.hasErrors()) {
-			map.addAttribute("edit", true);
 			return "khoaForm";
 		}
 
 		khoaService.update(khoa);
 		map.addAttribute("success", true);
-		map.addAttribute("edit", true);
 		map.addAttribute("tenKhoa", khoa.getTenKhoa());
-		return "khoaForm";
-	}
-
-	@RequestMapping(value = "/delete-khoa", method = RequestMethod.GET)
-	public String removeKhoa(@RequestParam String maKhoa, @RequestParam Integer p,
-			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("khoa", khoaService.findById(maKhoa));
-		map.addAttribute("pageURL", pageURL);
-		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
-		}
-
-		if (khoaService.isExistReference(maKhoa)) {
-			map.addAttribute("announceReference", true);
-			return "khoaForm";
-		}
-
-		map.addAttribute("remove", true);
-		map.addAttribute("announceRemove", true);
 		return "khoaForm";
 	}
 
 	@RequestMapping(value = "/delete-khoa", method = RequestMethod.POST)
 	public String deleteKhoa(@ModelAttribute("khoa") Khoa khoa, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("remove", true);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
-		
+
 		khoaService.delete(khoa);
 		map.addAttribute("success", true);
-		map.addAttribute("remove", true);
 		map.addAttribute("tenKhoa", khoa.getTenKhoa());
 		return "khoaForm";
 	}

@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.website.giadinh.dao.LopHocDao;
 import com.website.giadinh.entity.LopHoc;
+import com.website.giadinh.entity.NganhHoc;
 
 @Service("lopHocService")
+@Transactional
 public class LopHocServiceImpl implements LopHocService {
 	@Autowired
 	private LopHocDao lopHocDao;
@@ -66,5 +69,10 @@ public class LopHocServiceImpl implements LopHocService {
 	@Override
 	public List<LopHoc> search(String keyword) {
 		return lopHocDao.search(keyword);
+	}
+
+	@Override
+	public List<NganhHoc> getNganhHocList() {
+		return lopHocDao.getNganhHocList();
 	}
 }

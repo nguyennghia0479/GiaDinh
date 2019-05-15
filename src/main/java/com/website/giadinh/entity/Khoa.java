@@ -14,18 +14,18 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.website.giadinh.validation.Name;
+import com.website.giadinh.validator.Name;
 
 @Entity
 @Table(name = "Khoa")
 public class Khoa implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_Khoa", length = 10)
+	@Column(name = "maKhoa", length = 10)
 	@NotEmpty
 	private String maKhoa;
 
-	@Column(name = "Ten_Khoa", length = 100)
+	@Column(name = "tenKhoa", length = 100)
 	@NotEmpty
 	@Name
 	private String tenKhoa;

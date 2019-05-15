@@ -21,28 +21,28 @@ public class PhanCong implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Ma_PC")
+	@Column(name = "maPC")
 	private Long maPC;
 
-	@Column(name = "Ngay_BD")
+	@Column(name = "ngayBD")
 	private Date ngayBD;
 
-	@Column(name = "Ngay_KT")
+	@Column(name = "ngayKT")
 	private Date ngayKT;
 
-	@Column(name = "Hoc_Ky")
+	@Column(name = "hocKy")
 	private Integer hocKy;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_GV")
+	@JoinColumn(name = "maGV")
 	private GiangVien giangVien;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_Lop")
+	@JoinColumn(name = "maLop")
 	private LopHoc lopHoc;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_MH")
+	@JoinColumn(name = "maMH")
 	private MonHoc monHoc;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phanCong")

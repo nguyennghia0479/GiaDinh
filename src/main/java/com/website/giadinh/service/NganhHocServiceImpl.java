@@ -32,8 +32,7 @@ public class NganhHocServiceImpl implements NganhHocService {
 	
 	@Override
 	public Boolean isExistReference(String maNganh) {
-		// TODO Auto-generated method stub
-		return null;
+		return nganhHocDao.isExistReference(maNganh);
 	}
 
 	@Override

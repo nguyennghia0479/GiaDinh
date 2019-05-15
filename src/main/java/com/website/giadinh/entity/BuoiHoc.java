@@ -15,13 +15,13 @@ import javax.persistence.Table;
 public class BuoiHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_BH", length = 10)
+	@Column(name = "maBH", length = 10)
 	private String maBH;
 	
-	@Column(name = "Thu", length = 10, unique = true)
+	@Column(name = "thu", length = 10, unique = true)
 	private String thu = Thu.THU_HAI.thu;
 	
-	@Column(name = "Ca", length = 10, unique = true)
+	@Column(name = "ca", length = 10, unique = true)
 	private String ca = Ca.CA_MOT.ca;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "buoiHoc")

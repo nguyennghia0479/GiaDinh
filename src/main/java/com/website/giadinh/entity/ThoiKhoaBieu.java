@@ -13,16 +13,16 @@ public class ThoiKhoaBieu implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_PH")
+	@JoinColumn(name = "maPhong")
 	private PhongHoc phongHoc;
 	
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_BH")
+	@JoinColumn(name = "maBH")
 	private BuoiHoc buoiHoc;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_PC")
+	@JoinColumn(name = "maPC")
 	private PhanCong phanCong;
 
 	public PhongHoc getPhongHoc() {

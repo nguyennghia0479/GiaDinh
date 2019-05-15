@@ -15,19 +15,19 @@ import javax.persistence.Table;
 public class MonHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_MH", length = 10)
+	@Column(name = "maMH", length = 10)
 	private String maMH;
 	
-	@Column(name = "Ten_MH", length = 100)
+	@Column(name = "tenMH", length = 100)
 	private String tenMH;
 	
-	@Column(name = "So_TC")
+	@Column(name = "soTC")
 	private Integer soTC;
 	
-	@Column(name = "Ly_Thuyet")
+	@Column(name = "lyThuyet")
 	private Integer lyThuyet;
 	
-	@Column(name = "Thuc_Hanh")
+	@Column(name = "thucHanh")
 	private Integer thucHanh;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "monHoc")

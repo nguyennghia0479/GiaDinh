@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.website.giadinh.entity.LopHoc;
 import com.website.giadinh.entity.NganhHoc;
+import com.website.giadinh.entity.SinhVien;
 
 @Repository("lopHocDao")
 public class LopHocDaoImpl implements LopHocDao {
@@ -26,7 +27,7 @@ public class LopHocDaoImpl implements LopHocDao {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<LopHoc> cq = cb.createQuery(LopHoc.class);
 		Root<LopHoc> root = cq.from(LopHoc.class);
-		cq.select(root).orderBy(cb.asc(root.get("nganhHoc")));
+		cq.select(root).orderBy(cb.asc(root.get("maLop")));
 		List<LopHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
@@ -47,8 +48,17 @@ public class LopHocDaoImpl implements LopHocDao {
 
 	@Override
 	public Boolean isExistReference(String maLop) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<SinhVien> cq = cb.createQuery(SinhVien.class);
+		Root<SinhVien> root = cq.from(SinhVien.class);
+		Join<SinhVien, LopHoc> join = root.join("lopHoc");
+		cq.select(root).where(cb.like(join.get("maLop"), maLop));
+		List<SinhVien> list = session.createQuery(cq).getResultList();
+		if(list.isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -103,7 +113,7 @@ public class LopHocDaoImpl implements LopHocDao {
 		cq.select(root.get("maLop")).where(cb.like(root.get("maLop"), "%" + keyword + "%"));
 		List<String> list = session.createQuery(cq).getResultList();
 		if (list.isEmpty()) {
-			cq.select(join.get("tenNganh")).where(cb.like(join.get("tenNganh"), "%" + keyword + "%"));
+			cq.select(join.get("tenNganh")).where(cb.like(join.get("tenNganh"), "%" + keyword + "%")).distinct(true);
 			list = session.createQuery(cq).getResultList();
 		}
 		return list;
@@ -119,6 +129,17 @@ public class LopHocDaoImpl implements LopHocDao {
 		cq.select(root).where(cb.or(cb.like(root.get("maLop"), "%" + keyword + "%"),
 				cb.like(join.get("tenNganh"), "%" + keyword + "%")));
 		List<LopHoc> list = session.createQuery(cq).getResultList();
+		return list;
+	}
+
+	@Override
+	public List<NganhHoc> getNganhHocList() {
+		Session session = this.sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<NganhHoc> cq = cb.createQuery(NganhHoc.class);
+		Root<NganhHoc> root = cq.from(NganhHoc.class);
+		cq.select(root);
+		List<NganhHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
 }

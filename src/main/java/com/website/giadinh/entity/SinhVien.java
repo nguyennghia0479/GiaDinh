@@ -15,17 +15,14 @@ import javax.persistence.Table;
 public class SinhVien extends Person implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_SV", length = 10)
+	@Column(name = "maSV", length = 10)
 	private String maSV;
 	
-	@Column(name = "Khoa")
+	@Column(name = "khoa")
 	private Integer khoa;
 	
-	@Column(name = "Quyen", length = 10)
-	private String quyen;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_Lop")
+	@JoinColumn(name = "maLop")
 	private LopHoc lopHoc;
 	
 	@OneToOne(fetch = FetchType.EAGER)
@@ -46,14 +43,6 @@ public class SinhVien extends Person implements java.io.Serializable {
 
 	public void setKhoa(Integer khoa) {
 		this.khoa = khoa;
-	}
-
-	public String getQuyen() {
-		return quyen;
-	}
-
-	public void setQuyen(String quyen) {
-		this.quyen = quyen;
 	}
 
 	public LopHoc getLopHoc() {

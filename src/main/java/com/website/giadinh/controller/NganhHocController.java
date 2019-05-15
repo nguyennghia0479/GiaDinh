@@ -1,6 +1,7 @@
 package com.website.giadinh.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -10,6 +11,8 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,17 +20,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.website.giadinh.entity.NganhHoc;
-import com.website.giadinh.service.KhoaService;
+import com.website.giadinh.service.GetListService;
 import com.website.giadinh.service.NganhHocService;
+import com.website.giadinh.validator.NganhHocValidator;
 
 @Controller
 @RequestMapping(value = "/admin")
 public class NganhHocController extends PageController<NganhHoc> {
 	@Autowired
 	private NganhHocService nganhHocService;
-
+	
 	@Autowired
-	private KhoaService khoaService;
+	private NganhHocValidator nganhHocValidator;
+	
+	@Autowired
+	private GetListService getListService;
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.addValidators(nganhHocValidator);
+	}
 
 	@Override
 	public void pagedListHolder(HttpServletRequest request, List<NganhHoc> list, Integer p) {
@@ -77,13 +89,11 @@ public class NganhHocController extends PageController<NganhHoc> {
 
 	@RequestMapping(value = "/add-nganh-hoc", method = RequestMethod.GET)
 	public String addNganhHoc(@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
 		map.addAttribute("nganhHoc", new NganhHoc());
-		map.addAttribute("khoa", khoaService.findAll());
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("add", true);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 		return "nganhHocForm";
 	}
@@ -91,21 +101,18 @@ public class NganhHocController extends PageController<NganhHoc> {
 	@RequestMapping(value = "/add-nganh-hoc", method = RequestMethod.POST)
 	public String saveNganhHoc(@ModelAttribute("nganhHoc") @Valid NganhHoc nganhHoc, BindingResult result,
 			@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("add", true);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
 		if (nganhHocService.isExistKey(nganhHoc.getMaNganh())) {
-			map.addAttribute("khoa", khoaService.findAll());
 			map.addAttribute("existKey", true);
 			return "nganhHocForm";
 		}
 
 		if (result.hasErrors()) {
-			map.addAttribute("khoa", khoaService.findAll());
 			return "nganhHocForm";
 		}
 
@@ -114,18 +121,27 @@ public class NganhHocController extends PageController<NganhHoc> {
 		map.addAttribute("tenNganh", nganhHoc.getTenNganh());
 		return "nganhHocForm";
 	}
-
-	@RequestMapping(value = "/edit-nganh-hoc", method = RequestMethod.GET)
-	public String editNganhHoc(@RequestParam String maNganh, @RequestParam Integer p,
-			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
+	
+	@RequestMapping(value = { "/edit-nganh-hoc", "/delete-nganh-hoc" }, method = RequestMethod.GET)
+	public String getNganhHoc(@RequestParam String maNganh, @RequestParam Integer p,
+			@RequestParam(required = false) String k, ModelMap map, HttpServletRequest request) {
+		String servletPath = request.getServletPath().substring(7).toString();
 		map.addAttribute("nganhHoc", nganhHocService.findById(maNganh));
-		map.addAttribute("khoa", khoaService.findAll());
-		map.addAttribute("edit", true);
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
+		}
+
+		if (servletPath.equalsIgnoreCase("edit-nganh-hoc")) {
+			map.addAttribute("edit", true);
+		} else {
+			if (nganhHocService.isExistReference(maNganh)) {
+				map.addAttribute("announceReference", true);
+				return "nganhHocForm";
+			}
+
+			map.addAttribute("remove", true);
+			map.addAttribute("announceRemove", true);
 		}
 		return "nganhHocForm";
 	}
@@ -133,62 +149,39 @@ public class NganhHocController extends PageController<NganhHoc> {
 	@RequestMapping(value = "/edit-nganh-hoc", method = RequestMethod.POST)
 	public String updateNganhHoc(@ModelAttribute("nganhHoc") @Valid NganhHoc nganhHoc, BindingResult result,
 			@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("pageURL", pageURL);
+		map.addAttribute("edit", true);
+		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
 		if (result.hasErrors()) {
-			map.addAttribute("khoa", khoaService.findAll());
-			map.addAttribute("edit", true);
 			return "nganhHocForm";
 		}
 
 		nganhHocService.update(nganhHoc);
 		map.addAttribute("success", true);
-		map.addAttribute("edit", true);
 		map.addAttribute("tenNganh", nganhHoc.getTenNganh());
-		return "nganhHocForm";
-	}
-
-	@RequestMapping(value = "/delete-nganh-hoc", method = RequestMethod.GET)
-	public String removeNganhHoc(@RequestParam String maNganh, @RequestParam Integer p,
-			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("nganhHoc", nganhHocService.findById(maNganh));
-		map.addAttribute("khoa", khoaService.findAll());
-		map.addAttribute("pageURL", pageURL);
-		if (k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
-		}
-		
-//		if(nganhHocService.isExistReference(maNganh)) {
-//			map.addAttribute("announceReference", true);
-//			return "nganhHocForm";
-//		}
-
-		map.addAttribute("remove", true);
-		map.addAttribute("announceRemove", true);
 		return "nganhHocForm";
 	}
 
 	@RequestMapping(value = "/delete-nganh-hoc", method = RequestMethod.POST)
 	public String deleteNganhHoc(@ModelAttribute("nganhHoc") NganhHoc nganhHoc, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map) {
-		String pageURL = getReturnPage(p);
-		map.addAttribute("pageURL", pageURL);
-		if(k != null) {
-			pageURL = getReturnPage(k, p);
-			map.addAttribute("pageURL", pageURL);
+		map.addAttribute("remove", true);
+		map.addAttribute("pageURL", getReturnPage(p));
+		if (k != null) {
+			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
-		
+
 		nganhHocService.delete(nganhHoc);
 		map.addAttribute("success", true);
-		map.addAttribute("remove", true);
 		map.addAttribute("tenNganh", nganhHoc.getTenNganh());
 		return "nganhHocForm";
+	}
+	
+	@ModelAttribute("khoaList")
+	protected Map<String, String> getKhoaList() {
+		return getListService.getKhoaList();
 	}
 }

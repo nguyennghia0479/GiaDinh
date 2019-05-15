@@ -1,34 +1,57 @@
 package com.website.giadinh.entity;
 
+import java.util.Base64;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.website.giadinh.validator.Contact;
+import com.website.giadinh.validator.Name;
 
 @MappedSuperclass
 public class Person {
-	@Column(name = "Ho_Ten", length = 100)
+	@Column(name = "hoTen", length = 100)
+	@NotEmpty
+	@Name
 	private String hoTen;
 	
-	@Column(name = "Gioi_Tinh", length = 5)
+	@Column(name = "gioiTinh", length = 5)
 	private String gioiTinh;
 	
-	@Column(name = "Dia_Chi")
+	@Column(name = "diaChi")
+	@NotEmpty
 	private String diaChi;
 	
 	@Column(name = "SDT", length = 10)
+	@NotEmpty
+	@Contact
 	private String SDT;
 	
-	@Column(name = "Ngay_Sinh")
+	@DateTimeFormat(iso = ISO.DATE)
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ngaySinh")
+	@NotNull
 	private Date ngaySinh;
 	
-	@Column(name = "Noi_Sinh")
+	@Column(name = "noiSinh")
 	private String noiSinh;
 	
-	@Column(name = "Email")
+	@Column(name = "email")
+	@Email
+	@NotEmpty
 	private String email;
 	
-	@Column(name = "Hinh_Anh")
+	@Column(name = "hinh", length = 50000000)
 	private byte[] hinhAnh;
 	
 
@@ -94,5 +117,13 @@ public class Person {
 
 	public void setHinhAnh(byte[] hinhAnh) {
 		this.hinhAnh = hinhAnh;
+	}
+	
+	@Transient
+	public String getBase64() {
+		return Base64.getEncoder().encodeToString(hinhAnh);
+	}
+
+	public void setBase64(String base64) {
 	}
 }

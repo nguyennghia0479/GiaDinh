@@ -10,13 +10,13 @@ import javax.persistence.Table;
 public class TaiKhoan implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_TK", length = 10)
+	@Column(name = "tenTK", length = 10)
 	private String maTK;
 	
-	@Column(name = "Mat_Khau")
+	@Column(name = "matKhau")
 	private String matKhau;
 	
-	@Column(name = "Quyen", length = 10)
+	@Column(name = "quyen", length = 10)
 	private String quyen;
 
 	public String getMaTK() {

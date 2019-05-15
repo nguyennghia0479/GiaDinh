@@ -1,9 +1,9 @@
-package com.website.giadinh.validation;
+package com.website.giadinh.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class NameValidation implements ConstraintValidator<Name, String> {
+public class NameValidator implements ConstraintValidator<Name, String> {
 	public void initialize(Name paramA) {
 	}
 
@@ -16,5 +16,4 @@ public class NameValidation implements ConstraintValidator<Name, String> {
 		return name.matches(
 				"[a-z-A-Z_áàảãạâấầẩẫậăắằẳẵặéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ ÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÚÙỦŨỤƯỨỪỬỮỰÝỲỶỸỴĐ]{0,50}");
 	}
-
 }

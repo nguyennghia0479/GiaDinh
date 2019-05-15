@@ -21,12 +21,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class LopHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "Ma_Lop", length = 10)
+	@Column(name = "maLop", length = 10)
 	@NotEmpty
 	private String maLop;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Ma_Nganh")
+	@JoinColumn(name = "maNganh")
 	private NganhHoc nganhHoc;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "lopHoc")
