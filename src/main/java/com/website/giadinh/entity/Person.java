@@ -24,36 +24,42 @@ public class Person {
 	@NotEmpty
 	@Name
 	private String hoTen;
-	
+
 	@Column(name = "gioiTinh", length = 5)
+	@NotEmpty
 	private String gioiTinh;
-	
+
 	@Column(name = "diaChi")
 	@NotEmpty
 	private String diaChi;
-	
+
 	@Column(name = "SDT", length = 10)
 	@NotEmpty
 	@Contact
 	private String SDT;
-	
+
 	@DateTimeFormat(iso = ISO.DATE)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "ngaySinh")
 	@NotNull
 	private Date ngaySinh;
-	
+
 	@Column(name = "noiSinh")
 	private String noiSinh;
-	
+
 	@Column(name = "email")
 	@Email
 	@NotEmpty
 	private String email;
-	
+
 	@Column(name = "hinh", length = 50000000)
 	private byte[] hinhAnh;
-	
+
+	@Column(name = "quyen")
+	private String quyen;
+
+	@Transient
+	private String mode = "add";
 
 	public String getHoTen() {
 		return hoTen;
@@ -118,12 +124,25 @@ public class Person {
 	public void setHinhAnh(byte[] hinhAnh) {
 		this.hinhAnh = hinhAnh;
 	}
-	
+
 	@Transient
 	public String getBase64() {
 		return Base64.getEncoder().encodeToString(hinhAnh);
 	}
 
-	public void setBase64(String base64) {
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
+	public String getQuyen() {
+		return quyen;
+	}
+
+	public void setQuyen(String quyen) {
+		this.quyen = quyen;
 	}
 }

@@ -59,17 +59,15 @@
 								Khoa bạn chọn xóa đang được tham chiếu.
 								<br>
 								Để xóa Khoa, bạn hãy xóa hoặc cập nhật <a href="nganh-hoc" class="link-warning">Ngành Học</a> hoặc 
-								<a href="#" class="link-warning">Giảng Viên</a> tham chiếu tới Khoa khác.
+								<a href="giang-vien" class="link-warning">Giảng Viên</a> tham chiếu tới Khoa khác.
 							</div>
 		                </div>
 	                </c:if>
 	            	
+	            	<form:input path="mode" type="hidden" value="${mode}"/>
 	                <div class="form-group required col-lg-12">
 	                	<label for="maKhoa"><b>Mã khoa</b></label>
                    		<form:input path="maKhoa" class="form-control" placeholder="Nhập mã khoa" maxlength="10" disabled="${!add}"/>
-                   		<c:if test="${existKey}">
-                   			<div style="color:red">Mã khoa vừa nhập đã tồn tại</div>
-                   		</c:if>
                    		<form:errors path="maKhoa" cssClass="error"/>
 	                </div>
 	

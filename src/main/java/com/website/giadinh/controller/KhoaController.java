@@ -10,6 +10,8 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,12 +20,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.website.giadinh.entity.Khoa;
 import com.website.giadinh.service.KhoaService;
+import com.website.giadinh.validator.KhoaValidator;
 
 @Controller
 @RequestMapping(value = "/admin")
 public class KhoaController extends PageController<Khoa> {
 	@Autowired
 	private KhoaService khoaService;
+	
+	@Autowired
+	private KhoaValidator khoaValidator;
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.addValidators(khoaValidator);
+	}
 
 	@Override
 	public void pagedListHolder(HttpServletRequest request, List<Khoa> list, Integer p) {
@@ -91,11 +102,6 @@ public class KhoaController extends PageController<Khoa> {
 			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
-		if (khoaService.isExistKey(khoa.getMaKhoa())) {
-			map.addAttribute("existKey", true);
-			return "khoaForm";
-		}
-
 		if (result.hasErrors()) {
 			return "khoaForm";
 		}
@@ -118,6 +124,7 @@ public class KhoaController extends PageController<Khoa> {
 
 		if (servletPath.equalsIgnoreCase("edit-khoa")) {
 			map.addAttribute("edit", true);
+			map.addAttribute("mode", "edit");
 		} else {
 			if (khoaService.isExistReference(maKhoa)) {
 				map.addAttribute("announceReference", true);
@@ -133,6 +140,7 @@ public class KhoaController extends PageController<Khoa> {
 	@RequestMapping(value = "/edit-khoa", method = RequestMethod.POST)
 	public String updateKhoa(@ModelAttribute("khoa") @Valid Khoa khoa, BindingResult result, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map) {
+		System.out.println(khoa.getMode());
 		map.addAttribute("edit", true);
 		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {

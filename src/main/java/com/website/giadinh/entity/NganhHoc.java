@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -39,6 +40,9 @@ public class NganhHoc implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nganhHoc")
 	private Set<LopHoc> lopHoc = new HashSet<LopHoc>();
+	
+	@Transient
+	private String mode = "add";
 
 	public String getMaNganh() {
 		return maNganh;
@@ -70,5 +74,13 @@ public class NganhHoc implements java.io.Serializable {
 
 	public void setLopHoc(Set<LopHoc> lopHoc) {
 		this.lopHoc = lopHoc;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 }

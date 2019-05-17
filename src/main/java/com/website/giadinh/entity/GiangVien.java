@@ -29,7 +29,7 @@ public class GiangVien extends Person implements java.io.Serializable {
 	private String maGV;
 
 	@Column(name = "thamNien")
-	@Min(0)
+	@Min(1)
 	@Max(50)
 	@NotNull
 	private Integer thamNien;

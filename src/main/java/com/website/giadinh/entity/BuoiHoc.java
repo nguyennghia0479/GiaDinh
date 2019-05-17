@@ -18,10 +18,10 @@ public class BuoiHoc implements java.io.Serializable {
 	@Column(name = "maBH", length = 10)
 	private String maBH;
 	
-	@Column(name = "thu", length = 10, unique = true)
+	@Column(name = "thu", length = 10)
 	private String thu = Thu.THU_HAI.thu;
 	
-	@Column(name = "ca", length = 10, unique = true)
+	@Column(name = "ca", length = 10)
 	private String ca = Ca.CA_MOT.ca;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "buoiHoc")

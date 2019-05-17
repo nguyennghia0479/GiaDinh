@@ -32,6 +32,12 @@ public class PhanCong implements java.io.Serializable {
 
 	@Column(name = "hocKy")
 	private Integer hocKy;
+	
+	@Column(name = "namHoc")
+	private Integer namHoc;
+	
+	@Column(name = "trangThai")
+	private int trangThai;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "maGV")

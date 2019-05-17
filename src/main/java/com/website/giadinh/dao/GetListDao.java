@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.website.giadinh.entity.Khoa;
+import com.website.giadinh.entity.LopHoc;
 import com.website.giadinh.entity.NganhHoc;
 
 @Repository
@@ -36,6 +37,16 @@ public class GetListDao {
 		Root<NganhHoc> root = cq.from(NganhHoc.class);
 		cq.select(root);
 		List<NganhHoc> list = session.createQuery(cq).getResultList();
+		return list;
+	}
+	
+	public List<LopHoc> getLopHocList() {
+		Session session = this.sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<LopHoc> cq = cb.createQuery(LopHoc.class);
+		Root<LopHoc> root = cq.from(LopHoc.class);
+		cq.select(root);
+		List<LopHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
 }

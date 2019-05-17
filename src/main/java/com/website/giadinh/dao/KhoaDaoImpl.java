@@ -126,5 +126,5 @@ public class KhoaDaoImpl implements KhoaDao {
 				cb.like(root.get("maKhoa"), "%" + keyword + "%")));
 		List<Khoa> list = session.createQuery(cq).getResultList();
 		return list;
-	}
+	}	
 }

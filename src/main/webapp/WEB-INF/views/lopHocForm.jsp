@@ -58,18 +58,16 @@
 		                	<div class="alert alert-warning text-center" role="alert">
 								Lớp học bạn chọn xóa đang được tham chiếu.
 								<br>
-								Để xóa Lớp học, bạn hãy xóa hoặc cập nhật <a href="sinh-vien" class="link-warning">Sinh Vien</a> 
+								Để xóa Lớp học, bạn hãy xóa hoặc cập nhật <a href="sinh-vien" class="link-warning">Sinh Viên</a> 
 								tham chiếu tới Lớp học khác.
 							</div>
 		                </div>
 	                </c:if>
 	            
+	            	<form:input path="mode" type="hidden" value="${mode}"/>
 	                <div class="form-group required col-lg-12">
 	                	<label for="maLop"><b>Mã lớp</b></label>
                    		<form:input path="maLop" class="form-control" placeholder="Nhập mã lớp học" maxlength="10" disabled="${!add}"/>
-                   		<c:if test="${existKey}">
-                   			<div style="color:red">Mã lớp vừa nhập đã tồn tại</div>
-                   		</c:if>
                    		<form:errors path="maLop" cssClass="error"/>
 	                </div>
 					

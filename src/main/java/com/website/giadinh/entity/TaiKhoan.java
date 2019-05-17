@@ -17,7 +17,7 @@ public class TaiKhoan implements java.io.Serializable {
 	private String matKhau;
 	
 	@Column(name = "quyen", length = 10)
-	private String quyen;
+	private int quyen;
 
 	public String getMaTK() {
 		return maTK;
@@ -35,11 +35,11 @@ public class TaiKhoan implements java.io.Serializable {
 		this.matKhau = matKhau;
 	}
 
-	public String getQuyen() {
+	public int getQuyen() {
 		return quyen;
 	}
 
-	public void setQuyen(String quyen) {
+	public void setQuyen(int quyen) {
 		this.quyen = quyen;
 	}
 }

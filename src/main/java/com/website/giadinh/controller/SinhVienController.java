@@ -21,37 +21,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.website.giadinh.entity.GiangVien;
+import com.website.giadinh.entity.SinhVien;
 import com.website.giadinh.entity.TaiKhoan;
 import com.website.giadinh.service.GetListService;
-import com.website.giadinh.service.GiangVienService;
+import com.website.giadinh.service.SinhVienService;
 import com.website.giadinh.service.TaiKhoanService;
-import com.website.giadinh.validator.GiangVienValidator;
+import com.website.giadinh.validator.SinhVienValidator;
 
 @Controller
 @RequestMapping(value = "/admin")
-public class GiangVienController extends PageController<GiangVien> {
+public class SinhVienController extends PageController<SinhVien> {
 	@Autowired
-	private GiangVienService giangVienService;
+	private SinhVienService sinhVienService;
 
 	@Autowired
-	private GiangVienValidator giangVienValidator;
+	private SinhVienValidator sinhVienValidator;
 
 	@Autowired
 	private GetListService getListService;
 
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.addValidators(sinhVienValidator);
+	}
+
 	@Autowired
 	private TaiKhoanService taiKhoanService;
 
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.addValidators(giangVienValidator);
-	}
-
 	@Override
-	public void pagedListHolder(HttpServletRequest request, List<GiangVien> list, Integer p) {
-		PagedListHolder<GiangVien> pagedListHolder = new PagedListHolder<GiangVien>(list);
+	public void pagedListHolder(HttpServletRequest request, List<SinhVien> list, Integer p) {
+		PagedListHolder<SinhVien> pagedListHolder = new PagedListHolder<SinhVien>(list);
 		pagedListHolder.setMaxLinkedPages(5);
+		pagedListHolder.setPageSize(1);
 		request.getSession().setAttribute("pagedListHolder", pagedListHolder);
 		if (p == null) {
 			pagedListHolder.setPage(0);
@@ -62,51 +63,51 @@ public class GiangVienController extends PageController<GiangVien> {
 
 	@Override
 	public String getReturnPage(Integer p) {
-		return "giang-vien?p=" + p;
+		return "sinh-vien?p=" + p;
 	}
 
 	@Override
 	public String getReturnPage(String k, Integer p) {
-		return "giang-vien?k=" + k + "&p=" + p;
+		return "sinh-vien?k=" + k + "&p=" + p;
 	}
 
-	@RequestMapping(value = "/giang-vien", method = RequestMethod.GET)
-	public String getGiangVienList(HttpServletRequest request, @RequestParam(required = false) Integer p,
+	@RequestMapping(value = "/sinh-vien", method = RequestMethod.GET)
+	public String getSinhVienList(HttpServletRequest request, @RequestParam(required = false) Integer p,
 			@RequestParam(required = false) String k, ModelMap map) {
-		map.addAttribute("pageURL", "giang-vien");
+		map.addAttribute("pageURL", "sinh-vien");
 		if (k == null) {
-			List<GiangVien> list = giangVienService.findAll();
+			List<SinhVien> list = sinhVienService.findAll();
 			pagedListHolder(request, list, p);
-			map.addAttribute("result", giangVienService.countList());
-			return "giangVien";
+			map.addAttribute("result", sinhVienService.countList());
+			return "sinhVien";
 		}
-		List<GiangVien> list = giangVienService.search(k);
+		List<SinhVien> list = sinhVienService.search(k);
 		pagedListHolder(request, list, p);
 		map.addAttribute("search", true);
 		map.addAttribute("k", k);
-		map.addAttribute("result", giangVienService.countSearchResult(k));
-		return "giangVien";
+		map.addAttribute("result", sinhVienService.countSearchResult(k));
+		return "sinhVien";
 	}
 
-	@RequestMapping(value = "/searchAuto-giang-vien", method = RequestMethod.GET)
+	@RequestMapping(value = "/searchAuto-sinh-vien", method = RequestMethod.GET)
 	@ResponseBody
-	public List<String> searchAutoGiangVien(HttpServletRequest request) {
-		return giangVienService.searchAuto(request.getParameter("term"));
+	public List<String> searchAutoSinhVien(HttpServletRequest request) {
+		return sinhVienService.searchAuto(request.getParameter("term"));
 	}
 
-	@RequestMapping(value = "/add-giang-vien", method = RequestMethod.GET)
-	public String addGiangVien(@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map) {
-		map.addAttribute("giangVien", new GiangVien());
+	@RequestMapping(value = "/add-sinh-vien", method = RequestMethod.GET)
+	public String addSinhVien(@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map) {
+		map.addAttribute("sinhVien", new SinhVien());
 		map.addAttribute("add", true);
 		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
 			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
-		return "giangVienForm";
+		return "sinhVienForm";
 	}
 
-	@RequestMapping(value = "/add-giang-vien", method = RequestMethod.POST)
-	public String saveGiangVien(@ModelAttribute("giangVien") @Valid GiangVien giangVien, BindingResult result,
+	@RequestMapping(value = "/add-sinh-vien", method = RequestMethod.POST)
+	public String saveSinhVien(@ModelAttribute("sinhVien") @Valid SinhVien sinhVien, BindingResult result,
 			@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map,
 			@RequestParam CommonsMultipartFile image) {
 		map.addAttribute("add", true);
@@ -118,63 +119,58 @@ public class GiangVienController extends PageController<GiangVien> {
 		if (image.isEmpty()) {
 			map.addAttribute("error", true);
 			map.addAttribute("message", "Bạn chưa chọn hình ảnh");
-			return "giangVienForm";
+			return "sinhVienForm";
 		}
 
 		if (!contentTypes.contains(image.getContentType())) {
 			map.addAttribute("error", true);
-			map.addAttribute("message", "Ban hãy chọn file hình ảnh png hoặc jpg");
-			return "giangVienForm";
-		}
-		
-		if (result.hasErrors()) {
-			return "giangVienForm";
+			map.addAttribute("message", "Bạn hãy chọn file hình ảnh png hoặc jpg");
+			return "sinhVienForm";
 		}
 
-		giangVien.setHinhAnh(image.getBytes());
-		map.addAttribute("img", giangVien);
-		giangVienService.add(giangVien);
+		if (result.hasErrors()) {
+			return "sinhVienForm";
+		}
+
+		sinhVien.setHinhAnh(image.getBytes());
+		map.addAttribute("img", sinhVien);
+		sinhVienService.add(sinhVien);
 
 		TaiKhoan taiKhoan = new TaiKhoan();
-		taiKhoan.setMaTK(giangVien.getMaGV());
-		taiKhoan.setMatKhau(giangVien.getMaGV());
-		taiKhoan.setQuyen(2);
+		taiKhoan.setMaTK(sinhVien.getMaSV());
+		taiKhoan.setMatKhau(sinhVien.getMaSV());
+		taiKhoan.setQuyen(3);
 		taiKhoanService.add(taiKhoan);
 
 		map.addAttribute("success", true);
-		map.addAttribute("hoTen", giangVien.getHoTen());
-		return "giangVienForm";
+		map.addAttribute("hoTen", sinhVien.getHoTen());
+		return "sinhVienForm";
 	}
 
-	@RequestMapping(value = { "/edit-giang-vien", "/delete-giang-vien" }, method = RequestMethod.GET)
-	public String getGiangVien(@RequestParam String maGV, @RequestParam Integer p,
+	@RequestMapping(value = { "/edit-sinh-vien", "/delete-sinh-vien" }, method = RequestMethod.GET)
+	public String getSinhVien(@RequestParam String maSV, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map, HttpServletRequest request) {
 		String servletPath = request.getServletPath().substring(7).toString();
-		GiangVien giangVien = giangVienService.findById(maGV);
-		map.addAttribute("img", giangVien);
-		map.addAttribute("giangVien", giangVien);
+		SinhVien sinhVien = sinhVienService.findById(maSV);
+		map.addAttribute("img", sinhVien);
+		map.addAttribute("sinhVien", sinhVien);
 		map.addAttribute("pageURL", getReturnPage(p));
 		if (k != null) {
 			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
-		if (servletPath.equalsIgnoreCase("edit-giang-vien")) {
+		if (servletPath.equalsIgnoreCase("edit-sinh-vien")) {
 			map.addAttribute("edit", true);
 			map.addAttribute("mode", "edit");
 		} else {
-//			if(giangVienService.isExistReference(maGV)) {
-//				map.addAttribute("announceReference", true);
-//				return "giangVienForm";
-//			}
-
 			map.addAttribute("remove", true);
 			map.addAttribute("announceRemove", true);
 		}
-		return "giangVienForm";
+		return "sinhVienForm";
 	}
 
-	@RequestMapping(value = "/edit-giang-vien", method = RequestMethod.POST)
-	public String updateGiangVien(@ModelAttribute("giangVien") @Valid GiangVien giangVien, BindingResult result,
+	@RequestMapping(value = "/edit-sinh-vien", method = RequestMethod.POST)
+	public String updateSinhVien(@ModelAttribute("sinhVien") @Valid SinhVien sinhVien, BindingResult result,
 			@RequestParam Integer p, @RequestParam(required = false) String k, ModelMap map,
 			@RequestParam CommonsMultipartFile image) {
 		map.addAttribute("edit", true);
@@ -184,59 +180,54 @@ public class GiangVienController extends PageController<GiangVien> {
 		}
 
 		if (image.isEmpty()) {
-			GiangVien gv = giangVienService.findById(giangVien.getMaGV());
-			giangVien.setHinhAnh(gv.getHinhAnh());
+			SinhVien sv = sinhVienService.findById(sinhVien.getMaSV());
+			sinhVien.setHinhAnh(sv.getHinhAnh());
 		} else {
 			if (!contentTypes.contains(image.getContentType())) {
-				map.addAttribute("errorImg", true);
+				map.addAttribute("error", true);
 				map.addAttribute("message", "Bạn hãy chọn file hình ảnh png hoặc jpg");
-				return "giangVienForm";
+				return "sinhVienForm";
 			}
-			giangVien.setHinhAnh(image.getBytes());
+			sinhVien.setHinhAnh(image.getBytes());
 		}
 
 		if (result.hasErrors()) {
-			return "giangVienForm";
+			return "sinhVienForm";
 		}
 
-		map.addAttribute("img", giangVien);
-		giangVienService.update(giangVien);
+		map.addAttribute("img", sinhVien);
+		sinhVienService.update(sinhVien);
 		map.addAttribute("success", true);
-		map.addAttribute("hoTen", giangVien.getHoTen());
-		return "giangVienForm";
+		map.addAttribute("hoTen", sinhVien.getHoTen());
+		return "sinhVienForm";
 	}
 
-	@RequestMapping(value = "/delete-giang-vien", method = RequestMethod.POST)
-	public String deleteGiangVien(@ModelAttribute("giangVien") GiangVien giangVien, @RequestParam Integer p,
+	@RequestMapping(value = "/delete-sinh-vien", method = RequestMethod.POST)
+	public String deleteSinhVien(@ModelAttribute("sinhVien") SinhVien sinhVien, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map) {
-		TaiKhoan taiKhoan = taiKhoanService.findById(giangVien.getMaGV());
+		TaiKhoan taiKhoan = taiKhoanService.findById(sinhVien.getMaSV());
 		map.addAttribute("pageURL", getReturnPage(p));
-		if (k != null) {
+		if(k != null) {
 			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
-
-		giangVienService.delete(giangVien);
+		
+		sinhVienService.delete(sinhVien);
 		taiKhoanService.delete(taiKhoan);
 		map.addAttribute("success", true);
 		map.addAttribute("remove", true);
-		map.addAttribute("hoTen", giangVien.getHoTen());
-		return "giangVienForm";
+		map.addAttribute("hoTen", sinhVien.getHoTen());
+		return "sinhVienForm";
 	}
 
 	private List<String> contentTypes = Arrays.asList("image/png", "image/jpeg");
-
-	@ModelAttribute("trinhDoList")
-	private Map<String, String> getTrinhDoList() {
-		return getListService.getTrinhDoList();
-	}
 
 	@ModelAttribute("noiSinhList")
 	private Map<String, String> getNoiSinhList() {
 		return getListService.getNoiSinhList();
 	}
 
-	@ModelAttribute("khoaList")
-	private Map<String, String> getKhoaList() {
-		return getListService.getKhoaList();
+	@ModelAttribute("lopHocList")
+	private Map<String, String> getLopHocList() {
+		return getListService.getLopHocList();
 	}
 }

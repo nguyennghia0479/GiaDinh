@@ -64,12 +64,10 @@
 		                </div>
 	                </c:if>
 	            	
+	            	<form:input path="mode" type="hidden" value="${mode}"/>
 	                <div class="form-group required col-lg-12">
 	                	<label for="maNganh"><b>Mã ngành</b></label>
                    		<form:input path="maNganh" class="form-control" placeholder="Nhập mã ngành học" maxlength="10" disabled="${!add}"/>
-                   		<c:if test="${existKey}">
-                   			<div style="color:red">Mã ngành vừa nhập đã tồn tại</div>
-                   		</c:if>
                    		<form:errors path="maNganh" cssClass="error"/>
 	                </div>
 					

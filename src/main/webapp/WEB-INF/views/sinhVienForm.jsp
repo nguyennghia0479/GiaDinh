@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Mẫu Đơn Giảng Viên</title>
+	<title>Mẫu Đơn Sinh Viên</title>
 	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,26 +18,26 @@
 </head>
 <body>
 	<div class="container">
-        <h2 class="text-center text-uppercase">Mẫu Đơn Giảng Viên
+        <h2 class="text-center text-uppercase">Mẫu Đơn Sinh Viên
         </h2>
         <div class="card">
             <div class="card-header">
-               	Giảng Viên
+               	Sinh Viên
             </div>
             <div class="card-body">   	
-	            <form:form method="post" enctype="multipart/form-data" modelAttribute="giangVien">  
+	            <form:form method="post" enctype="multipart/form-data" modelAttribute="sinhVien">  
 	            	<c:if test="${success}">
             			<div class="form-group col-lg-12">
 		                	<div class="alert alert-success text-center" role="alert">
 		                		<c:choose>
-		                			<c:when test="${add}">
-										Thêm giảng viên <b>${hoTen}</b> thành công
+		                			<c:when test="${remove}">
+		                				Xóa sinh viên <b>${hoTen}</b> thành công
 		                			</c:when>
 		                			<c:when test="${edit}">
-		                				Cập nhật giảng viên <b>${hoTen}</b> thành công
+		                				Cập nhật sinh viên <b>${hoTen}</b> thành công
 		                			</c:when>
 		                			<c:otherwise>
-		                				Xóa giảng viên <b>${hoTen}</b> thành công
+		                				Thêm sinh viên <b>${hoTen}</b> thành công
 		                			</c:otherwise>	
 		                		</c:choose>
 								<button onclick="location.href='${pageURL}'" class="close" data-dismiss="alert" aria-label="Close">
@@ -53,18 +53,8 @@
 							</div>
 		                </div>
 	                </c:if>
-	                <c:if test="${announceReference}">
-	                	<div class="form-group col-lg-12">
-		                	<div class="alert alert-warning text-center" role="alert">
-								Giảng viên bạn chọn xóa đang được tham chiếu.
-								<br>
-								Để xóa Giảng viên, bạn hãy xóa hoặc cập nhật <a href="phan-cong" class="link-warning">Phân Công</a> 
-								tham chiếu tới Giảng viên khác.
-							</div>
-		                </div>
-	                </c:if>
-	             	
-	             	<form:input path="mode" type="hidden" value="${mode}"/>
+	              
+	              	<form:input path="mode" type="hidden" value="${mode}"/>
 	                <div class="row">
 	                	<div class="col-sm-4">
 	                		<c:choose>
@@ -75,10 +65,10 @@
 	                			</c:when>
 	                			<c:otherwise>
 	                				<div class="form-group required col-lg-12">	
-			                       		<img id="img-upload" src="data:image/jpeg;base64,${giangVien.base64}" width="240px" height="240px"/>               			
+			                       		<img id="img-upload" src="data:image/jpeg;base64,${sinhVien.base64}" width="240px" height="240px"/>               			
 			                		</div>
 	                			</c:otherwise>
-	                		</c:choose>	
+	                		</c:choose>      		
 	                		<div class="form-group required col-lg-12">	
 	                			<label for="hinhAnh"><b>Hình ảnh</b></label>
 	                			<div class="custom-file mb-3">
@@ -99,10 +89,10 @@
 	                		<div class="row">
 	                			<div class="col-sm-5">
 	                				<div class="form-group required col-lg-12">
-					                	<label for="maGV"><b>Mã giảng viên</b></label>
-			                    		<form:input path="maGV" class="form-control" placeholder="Nhập mã giảng viên" maxlength="10"
+					                	<label for="maSV"><b>Mã sinh viên</b></label>
+			                    		<form:input path="maSV" class="form-control" placeholder="Nhập mã sinh viên" maxlength="10"
 			                    			disabled="${!add}"/>
-			                    		<form:errors path="maGV" cssClass="error"/>
+			                    		<form:errors path="maSV" cssClass="error"/>
 					                </div>
 					        	</div>
 	                			<div class="col-sm-7">
@@ -185,30 +175,20 @@
 	                <div class="row">
 	                	<div class="col-sm-4">
 	                		<div class="form-group required col-lg-12">
-			                	<label for="khoa"><b>Khoa</b></label>
-			                	<form:select path="khoa.maKhoa" class="form-control"  disabled="${remove}">
-			                		<form:option value="NONE" label="Chọn khoa" cssClass="option"/>
-									<form:options items="${khoaList}"/>
-								</form:select>
+			                	<label for="khoa"><b>Khóa</b></label>
+			                	<form:input path="khoa" type="number" class="form-control" placeholder="Nhập khóa" 
+			                		readonly="${remove}"/>
 								<form:errors path="khoa" cssClass="error"/>
 			                </div>
 	                	</div>
 	                	<div class="col-sm-4">
-	                		 <div class="form-group required col-lg-12">
-			                	<label for="trinhDo"><b>Trình độ</b></label>
-			                	<form:select path="trinhDo" class="form-control" disabled="${remove}">
-			                		<form:option value="NONE" label="Chọn trình độ" cssClass="option"/>
-			                		<form:options items="${trinhDoList}"/>
-			                	</form:select>
-			                	<form:errors path="trinhDo" cssClass="error"/>
-			                </div>
-	                	</div>
-	                	<div class="col-sm-4">
 	                		<div class="form-group required col-lg-12">
-			                	<label for="thamNien"><b>Thâm niên</b></label>
-			                	<form:input path="thamNien" type="number" class="form-control" placeholder="Nhập thâm niên" 
-			                		readonly="${remove}"/>
-			                	<form:errors path="thamNien" cssClass="error"/>
+			                	<label for="loppHoc"><b>Lớp học</b></label>
+			                	<form:select path="lopHoc.maLop" class="form-control"  disabled="${remove}">
+			                		<form:option value="NONE" label="Chọn lớp học" cssClass="option"/>
+									<form:options items="${lopHocList}"/>
+								</form:select>
+								<form:errors path="lopHoc" cssClass="error"/>
 			                </div>
 	                	</div>
 	                </div>

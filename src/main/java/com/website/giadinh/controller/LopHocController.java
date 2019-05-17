@@ -107,11 +107,6 @@ public class LopHocController extends PageController<LopHoc> {
 			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
-		if (lopHocService.isExistKey(lopHoc.getMaLop())) {
-			map.addAttribute("existKey", true);
-			return "lopHocForm";
-		}
-
 		if (result.hasErrors()) {
 			return "lopHocForm";
 		}
@@ -134,6 +129,7 @@ public class LopHocController extends PageController<LopHoc> {
 
 		if (servletPath.equalsIgnoreCase("edit-lop-hoc")) {
 			map.addAttribute("edit", true);
+			map.addAttribute("mode", "edit");
 		} else {
 //			if (lopHocService.isExistReference(maLop)) {
 //				map.addAttribute("announceReference", true);

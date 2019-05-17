@@ -107,11 +107,6 @@ public class NganhHocController extends PageController<NganhHoc> {
 			map.addAttribute("pageURL", getReturnPage(k, p));
 		}
 
-		if (nganhHocService.isExistKey(nganhHoc.getMaNganh())) {
-			map.addAttribute("existKey", true);
-			return "nganhHocForm";
-		}
-
 		if (result.hasErrors()) {
 			return "nganhHocForm";
 		}
@@ -134,6 +129,7 @@ public class NganhHocController extends PageController<NganhHoc> {
 
 		if (servletPath.equalsIgnoreCase("edit-nganh-hoc")) {
 			map.addAttribute("edit", true);
+			map.addAttribute("mode", "edit");
 		} else {
 			if (nganhHocService.isExistReference(maNganh)) {
 				map.addAttribute("announceReference", true);

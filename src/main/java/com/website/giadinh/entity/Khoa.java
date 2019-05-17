@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -35,6 +36,9 @@ public class Khoa implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khoa")
 	private List<GiangVien> giangVien = new ArrayList<GiangVien>();
+	
+	@Transient
+	private String mode = "add";
 
 	public String getMaKhoa() {
 		return maKhoa;
@@ -66,5 +70,13 @@ public class Khoa implements java.io.Serializable {
 
 	public void setGiangVien(List<GiangVien> giangVien) {
 		this.giangVien = giangVien;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 }

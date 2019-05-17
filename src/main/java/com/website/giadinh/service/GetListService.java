@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.website.giadinh.dao.GetListDao;
 import com.website.giadinh.entity.Khoa;
+import com.website.giadinh.entity.LopHoc;
 import com.website.giadinh.entity.NganhHoc;
 
 @Service
@@ -115,6 +116,12 @@ public class GetListService {
 	public Map<String, String> getNganhHocList() {
 		List<NganhHoc> list = getListDao.getNganhHocList();
 		Map<String, String> map = list.stream().collect(Collectors.toMap(NganhHoc::getMaNganh, NganhHoc::getTenNganh));
+		return map;
+	}
+
+	public Map<String, String> getLopHocList() {
+		List<LopHoc> list = getListDao.getLopHocList();
+		Map<String, String> map = list.stream().collect(Collectors.toMap(LopHoc::getMaLop, LopHoc::getMaLop));
 		return map;
 	}
 }
