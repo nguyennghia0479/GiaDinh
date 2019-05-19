@@ -52,7 +52,6 @@ public class SinhVienController extends PageController<SinhVien> {
 	public void pagedListHolder(HttpServletRequest request, List<SinhVien> list, Integer p) {
 		PagedListHolder<SinhVien> pagedListHolder = new PagedListHolder<SinhVien>(list);
 		pagedListHolder.setMaxLinkedPages(5);
-		pagedListHolder.setPageSize(1);
 		request.getSession().setAttribute("pagedListHolder", pagedListHolder);
 		if (p == null) {
 			pagedListHolder.setPage(0);

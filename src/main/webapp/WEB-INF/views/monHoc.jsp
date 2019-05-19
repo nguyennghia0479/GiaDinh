@@ -2,12 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Giảng Viên</title>
-	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
+    <title>Môn Học</title>
+    <link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href='<spring:url value="/resources/css/bootstrap.min.css"></spring:url>'>
@@ -19,31 +18,31 @@
     <script src='<spring:url value="/resources/js/bootstrap.min.js"></spring:url>'></script>
     
     <script type="text/javascript">
-    	$(document).ready(function(){
-    		$('#giangVien').autocomplete({
-    			source: '${pageContext.request.contextPath}/admin/searchAuto-giang-vien'
-    		});
-    	});
+	    $(document).ready(function() {
+			$('#monHoc').autocomplete({
+				source: '${pageContext.request.contextPath}/admin/searchAuto-mon-hoc'
+			});
+		});
     </script>
 </head>
 <body>
-	<jsp:include page="menu.jsp"/>
-	<div class="container-fluid">
+	<jsp:include page="menu.jsp"></jsp:include>
+    <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
                 <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Giảng Viên</li>
+                <li class="breadcrumb-item active" aria-current="page">Môn Học</li>
             </ol>
         </nav>
         <div class="row ">
             <div class="col-sm-2 ">
                 <div class="vertical-menu ">
                     <a href="sinh-vien"><i class="fas fa-user-graduate"></i> Sinh Viên</a>
-                    <a href="giang-vien" class="active"><i class="fas fa-user-tie"></i> Giảng Viên</a>
+                    <a href="giang-vien"><i class="fas fa-user-tie"></i> Giảng Viên</a>
                     <a href="khoa"><i class="fas fa-graduation-cap"></i> Khoa</a>
                     <a href="nganh-hoc"><i class="fas fa-layer-group"></i> Ngành Học</a>
-                    <a href="mon-hoc"><i class="fas fa-book"></i> Môn Học</a>
+                    <a href="mon-hoc" class="active"><i class="fas fa-book"></i> Môn Học</a>
                     <a href="phong-hoc"><i class="fas fa-building"></i> Phòng Học</a>
                     <a href="lop-hoc"><i class="fas fa-chalkboard-teacher"></i> Lớp Học</a>
                     <a href="phan-cong"><i class="fas fa-clipboard-list"></i> Phân Công</a>
@@ -52,12 +51,12 @@
                 </div>
             </div>
             <div class="col-sm-10 ">
-            	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 
+            	<c:set var="pagedListHolder" value="${pagedListHolder}" scope="session" /> 	
             	<nav class="navbar navbar-expand-lg">
                 	<ul class="navbar-nav mr-auto">
                 		<li>
-	                   		<form class="form-inline my-2 my-lg-0" method="get" action="giang-vien" role="search">
-	                       		<input id="giangVien" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm giảng viên" aria-label="Search">
+	                   		<form class="form-inline my-2 my-lg-0" method="get" action="mon-hoc" role="search">
+	                       		<input id="monHoc" name="k" class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm môn học" aria-label="Search">
 	                          	<button class="btn btn-outline-success my-2 my-sm-0" title="Tìm kiếm" type="submit">
 	                          		<i class="fas fa-search"></i>
 	                          	</button>
@@ -66,18 +65,18 @@
                   	</ul>
                    	<ul class="navbar-nav">
                    		<li>   
-                   			<c:url value="add-giang-vien" var="addLink">
+                   			<c:url value="add-mon-hoc" var="addLink">
                    				<c:param name="p" value="${pagedListHolder.page}"></c:param>
                    				<c:if test="${search}">
-                    				<c:param name="k" value="${k}"></c:param>
-                    			</c:if>
+                   					<c:param name="k" value="${k}"></c:param>
+                   				</c:if>
                    			</c:url>                 		
                    			<a title="Thêm" class="btn btn-outline-primary" href="${addLink}">
                     			<i class="fas fa-plus-square"></i> Thêm mới
                     		</a>
                   		</li>
                   	</ul>
-               	</nav>	
+               	</nav>
                 <table class="table table-striped table-hover">
                     <c:choose>
 	                    <c:when test="${!empty pagedListHolder.pageList}">
@@ -91,38 +90,38 @@
 	                    	<thead class="thead-bg ">
 		                        <tr>
 		                        	<th scope="col">#</th>
-		                        	<th scope="col">Mã Giảng Viên</th>
-		                            <th scope="col">Họ Tên</th>
-		                            <th scope="col">Ngày Sinh</th>
-		                            <th scope="col">Trình Độ</th>
-		                            <th scope="col">Khoa</th>
+		                            <th scope="col">Mã Môn Học</th>
+		                            <th scope="col">Tên Môn Học</th>
+		                            <th scope="col">Số Tín Chỉ</th>
+		                            <th scope="col">Lý Thuyết</th>
+		                            <th scope="col">Thực Hành</th>
 		                            <th scope="col">Thao Tác</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	<c:forEach end="${result}" items="${pagedListHolder.pageList}" var="gv" varStatus="loop">
-		                    		<c:url var="updateLink" value="edit-giang-vien">
-		                    			<c:param name="maGV" value="${gv.maGV}"></c:param>
+		                    	<c:forEach end="${result}" items="${pagedListHolder.pageList}" var="monHoc" varStatus="loop">
+		                    		<c:url var="updateLink" value="edit-mon-hoc">
+		                    			<c:param name="maMH" value="${monHoc.maMH}"></c:param>
 		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
 		                    			<c:if test="${search}">
-		                    				<c:param name="k" value="${k}"></c:param>
-		                    			</c:if>
+		                   					<c:param name="k" value="${k}"></c:param>
+		                   				</c:if>
 		                    		</c:url>		                    		
-		                    		<c:url var="deleteLink" value="delete-giang-vien">
-		                    			<c:param name="maGV" value="${gv.maGV}"></c:param>
+		                    		<c:url var="deleteLink" value="delete-mon-hoc">
+		                    			<c:param name="maMH" value="${monHoc.maMH}"></c:param>
 		                    			<c:param name="p" value="${pagedListHolder.page}"></c:param>
 		                    			<c:if test="${search}">
-		                    				<c:param name="k" value="${k}"></c:param>
-		                    			</c:if>
+		                   					<c:param name="k" value="${k}"></c:param>
+		                   				</c:if>
 		                    		</c:url>
 		                    		
 		                    		<tr>
 		                    			<th>${loop.index+1}</th>
-		                    			<td>${gv.maGV}</td>
-		                    			<td>${gv.hoTen}</td>
-		                    			<td><fmt:formatDate value="${gv.ngaySinh}" pattern="dd-MM-yyyy"/></td>
-		                    			<td>${gv.trinhDo}</td>
-		                    			<td>${gv.khoa.tenKhoa}</td>
+		                    			<td>${monHoc.maMH}</td>
+		                    			<td>${monHoc.tenMH}</td>
+		                    			<td>${monHoc.soTC}</td>
+		                    			<td>${monHoc.lyThuyet}</td>
+		                    			<td>${monHoc.thucHanh}</td>
 		                    			<td>
 		                    				<a href="${updateLink}" title="Sửa" class="btn btn-outline-info"><i class="fas fa-edit"></i></a>
 		                    				<a href="${deleteLink}" title="Xóa" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>

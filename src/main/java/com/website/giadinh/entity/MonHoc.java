@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "MonHoc")
@@ -16,22 +19,27 @@ public class MonHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "maMH", length = 10)
+	@NotEmpty
 	private String maMH;
-	
+
 	@Column(name = "tenMH", length = 100)
+	@NotEmpty
 	private String tenMH;
-	
+
 	@Column(name = "soTC")
 	private Integer soTC;
-	
+
 	@Column(name = "lyThuyet")
 	private Integer lyThuyet;
-	
+
 	@Column(name = "thucHanh")
 	private Integer thucHanh;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "monHoc")
 	private Set<PhanCong> phanCong = new HashSet<PhanCong>();
+
+	@Transient
+	private String mode = "add";
 
 	public String getMaMH() {
 		return maMH;
@@ -79,5 +87,13 @@ public class MonHoc implements java.io.Serializable {
 
 	public void setPhanCong(Set<PhanCong> phanCong) {
 		this.phanCong = phanCong;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 }

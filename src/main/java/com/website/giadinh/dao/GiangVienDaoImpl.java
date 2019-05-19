@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -12,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.website.giadinh.entity.GiangVien;
+import com.website.giadinh.entity.Khoa;
 
 @Repository("giangVienDao")
 public class GiangVienDaoImpl implements GiangVienDao {
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public List<GiangVien> findAll() {
 		Session session = this.sessionFactory.getCurrentSession();
@@ -37,7 +39,7 @@ public class GiangVienDaoImpl implements GiangVienDao {
 
 	@Override
 	public Boolean isExistKey(String maGV) {
-		if(findById(maGV) == null) {
+		if (findById(maGV) == null) {
 			return false;
 		}
 		return true;
@@ -84,7 +86,10 @@ public class GiangVienDaoImpl implements GiangVienDao {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<GiangVien> root = cq.from(GiangVien.class);
-		cq.select(cb.count(root.get("maGV"))).where(cb.like(root.get("maGV"), "%" + keyword + "%"));
+		Join<GiangVien, Khoa> join = root.join("khoa");
+		cq.select(cb.count(root.get("maGV"))).where(cb.or(cb.like(root.get("maGV"), "%" + keyword + "%"),
+				cb.like(root.get("hoTen"), "%" + keyword + "%"), cb.like(root.get("trinhDo"), "%" + keyword + "%"),
+				cb.like(join.get("tenKhoa"), "%" + keyword + "%")));
 		Long count = session.createQuery(cq).getSingleResult();
 		return count;
 	}
@@ -95,8 +100,21 @@ public class GiangVienDaoImpl implements GiangVienDao {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<String> cq = cb.createQuery(String.class);
 		Root<GiangVien> root = cq.from(GiangVien.class);
-		cq.select(root.get("hoTen")).where(cb.like(root.get("hoTen"), "%" + keyword + "%"));
+		Join<GiangVien, Khoa> join = root.join("khoa");
+		cq.select(root.get("hoTen")).where(cb.like(root.get("hoTen"), "%" + keyword + "%")).distinct(true);
 		List<String> list = session.createQuery(cq).getResultList();
+		if (list.isEmpty()) {
+			cq.select(root.get("maGV")).where(cb.like(root.get("maGV"), "%" + keyword + "%"));
+			list = session.createQuery(cq).getResultList();
+		}
+		if (list.isEmpty()) {
+			cq.select(root.get("trinhDo")).where(cb.like(root.get("trinhDo"), "%" + keyword + "%")).distinct(true);
+			list = session.createQuery(cq).getResultList();
+		}
+		if (list.isEmpty()) {
+			cq.select(join.get("tenKhoa")).where(cb.like(join.get("tenKhoa"), "%" + keyword + "%")).distinct(true);
+			list = session.createQuery(cq).getResultList();
+		}
 		return list;
 	}
 
@@ -106,7 +124,10 @@ public class GiangVienDaoImpl implements GiangVienDao {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<GiangVien> cq = cb.createQuery(GiangVien.class);
 		Root<GiangVien> root = cq.from(GiangVien.class);
-		cq.select(root).where(cb.like(root.get("hoTen"), "%" + keyword + "%"));
+		Join<GiangVien, Khoa> join = root.join("khoa");
+		cq.select(root).where(cb.or(cb.like(root.get("maGV"), "%" + keyword + "%"),
+				cb.like(root.get("hoTen"), "%" + keyword + "%"), cb.like(root.get("trinhDo"), "%" + keyword + "%"),
+				cb.like(join.get("tenKhoa"), "%" + keyword + "%")));
 		List<GiangVien> list = session.createQuery(cq).getResultList();
 		return list;
 	}

@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "PhongHoc")
@@ -16,13 +19,18 @@ public class PhongHoc implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "maPhong", length = 10)
+	@NotEmpty
 	private String maPH;
-	
+
 	@Column(name = "loaiPhong", length = 10)
+	@NotEmpty
 	private String loaiPH;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phongHoc")
 	private Set<ThoiKhoaBieu> thoiKhoaBieu = new HashSet<ThoiKhoaBieu>();
+
+	@Transient
+	private String mode = "add";
 
 	public String getMaPH() {
 		return maPH;
@@ -46,5 +54,13 @@ public class PhongHoc implements java.io.Serializable {
 
 	public void setThoiKhoaBieu(Set<ThoiKhoaBieu> thoiKhoaBieu) {
 		this.thoiKhoaBieu = thoiKhoaBieu;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 }

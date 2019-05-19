@@ -3,7 +3,6 @@ package com.website.giadinh.dao;
 import java.util.List;
 
 import com.website.giadinh.entity.LopHoc;
-import com.website.giadinh.entity.NganhHoc;
 
 public interface LopHocDao {
 	List<LopHoc> findAll();
@@ -26,7 +25,5 @@ public interface LopHocDao {
 	
 	List<String> searchAuto(String keyword);
 	
-	List<LopHoc> search(String keyword);
-	
-	List<NganhHoc> getNganhHocList();
+	List<LopHoc> search(String keyword);	
 }

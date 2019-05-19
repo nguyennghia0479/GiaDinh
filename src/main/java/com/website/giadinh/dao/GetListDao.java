@@ -11,15 +11,17 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.website.giadinh.entity.GiangVien;
 import com.website.giadinh.entity.Khoa;
 import com.website.giadinh.entity.LopHoc;
+import com.website.giadinh.entity.MonHoc;
 import com.website.giadinh.entity.NganhHoc;
 
 @Repository
 public class GetListDao {
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	public List<Khoa> getKhoaList() {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -29,7 +31,7 @@ public class GetListDao {
 		List<Khoa> list = session.createQuery(cq).getResultList();
 		return list;
 	}
-	
+
 	public List<NganhHoc> getNganhHocList() {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -39,7 +41,7 @@ public class GetListDao {
 		List<NganhHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
-	
+
 	public List<LopHoc> getLopHocList() {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -47,6 +49,26 @@ public class GetListDao {
 		Root<LopHoc> root = cq.from(LopHoc.class);
 		cq.select(root);
 		List<LopHoc> list = session.createQuery(cq).getResultList();
+		return list;
+	}
+
+	public List<GiangVien> getGiangVienList() {
+		Session session = this.sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<GiangVien> cq = cb.createQuery(GiangVien.class);
+		Root<GiangVien> root = cq.from(GiangVien.class);
+		cq.select(root);
+		List<GiangVien> list = session.createQuery(cq).getResultList();
+		return list;
+	}
+
+	public List<MonHoc> getMonHocList() {
+		Session session = this.sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<MonHoc> cq = cb.createQuery(MonHoc.class);
+		Root<MonHoc> root = cq.from(MonHoc.class);
+		cq.select(root);
+		List<MonHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
 }

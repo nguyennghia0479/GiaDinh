@@ -93,7 +93,6 @@
 		                        	<th scope="col">#</th>
 		                        	<th scope="col">Mã Sinh Viên</th>
 		                            <th scope="col">Họ Tên</th>
-		                            <th scope="col">Giới Tính</th>
 		                            <th scope="col">Ngày Sinh</th>
 		                            <th scope="col">Lớp Học</th>
 		                            <th scope="col">Chuyên Ngành</th>
@@ -121,8 +120,7 @@
 		                    			<th>${loop.index+1}</th>
 		                    			<td>${sv.maSV}</td>
 		                    			<td>${sv.hoTen}</td>
-		                    			<td>${sv.gioiTinh}</td>
-		                    			<td><fmt:formatDate value="${sv.ngaySinh}" pattern="dd-MM-yyyy"/> </td>
+		                    			<td><fmt:formatDate value="${sv.ngaySinh}" pattern="dd-MM-yyyy"/></td>
 		                    			<td>${sv.lopHoc.maLop}</td>
 		                    			<td>${sv.lopHoc.nganhHoc.tenNganh}</td>
 		                    			<td>

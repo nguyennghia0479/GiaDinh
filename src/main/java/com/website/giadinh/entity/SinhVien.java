@@ -1,6 +1,5 @@
 package com.website.giadinh.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +32,7 @@ public class SinhVien extends Person implements java.io.Serializable {
 	@JoinColumn(name = "maLop")
 	private LopHoc lopHoc;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@PrimaryKeyJoinColumn
 	private TaiKhoan taiKhoan;
 

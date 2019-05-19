@@ -14,6 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "PhanCong")
@@ -24,18 +29,22 @@ public class PhanCong implements java.io.Serializable {
 	@Column(name = "maPC")
 	private Long maPC;
 
+	@DateTimeFormat(iso = ISO.DATE)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "ngayBD")
 	private Date ngayBD;
 
+	@DateTimeFormat(iso = ISO.DATE)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "ngayKT")
 	private Date ngayKT;
 
 	@Column(name = "hocKy")
 	private Integer hocKy;
-	
+
 	@Column(name = "namHoc")
 	private Integer namHoc;
-	
+
 	@Column(name = "trangThai")
 	private int trangThai;
 
@@ -50,7 +59,7 @@ public class PhanCong implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "maMH")
 	private MonHoc monHoc;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phanCong")
 	private Set<ThoiKhoaBieu> thoiKhoaBieus = new HashSet<ThoiKhoaBieu>();
 
@@ -116,5 +125,21 @@ public class PhanCong implements java.io.Serializable {
 
 	public void setThoiKhoaBieus(Set<ThoiKhoaBieu> thoiKhoaBieus) {
 		this.thoiKhoaBieus = thoiKhoaBieus;
+	}
+
+	public Integer getNamHoc() {
+		return namHoc;
+	}
+
+	public void setNamHoc(Integer namHoc) {
+		this.namHoc = namHoc;
+	}
+
+	public int getTrangThai() {
+		return trangThai;
+	}
+
+	public void setTrangThai(int trangThai) {
+		this.trangThai = trangThai;
 	}
 }

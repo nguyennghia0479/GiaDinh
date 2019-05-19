@@ -131,15 +131,4 @@ public class LopHocDaoImpl implements LopHocDao {
 		List<LopHoc> list = session.createQuery(cq).getResultList();
 		return list;
 	}
-
-	@Override
-	public List<NganhHoc> getNganhHocList() {
-		Session session = this.sessionFactory.getCurrentSession();
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<NganhHoc> cq = cb.createQuery(NganhHoc.class);
-		Root<NganhHoc> root = cq.from(NganhHoc.class);
-		cq.select(root);
-		List<NganhHoc> list = session.createQuery(cq).getResultList();
-		return list;
-	}
 }

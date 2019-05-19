@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.website.giadinh.dao.GetListDao;
+import com.website.giadinh.entity.GiangVien;
 import com.website.giadinh.entity.Khoa;
 import com.website.giadinh.entity.LopHoc;
+import com.website.giadinh.entity.MonHoc;
 import com.website.giadinh.entity.NganhHoc;
 
 @Service
@@ -107,6 +109,35 @@ public class GetListService {
 		return sort;
 	}
 
+	public Map<Integer, String> getSoTinChiList() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(1, "1 tín chỉ");
+		map.put(2, "2 tín chỉ");
+		map.put(3, "3 tín chỉ");
+		map.put(4, "4 tín chỉ");
+		map.put(5, "5 tín chỉ");
+
+		Map<Integer, String> sort = new LinkedHashMap<Integer, String>();
+		map.entrySet().stream().sorted(Map.Entry.comparingByKey())
+				.forEachOrdered(e -> sort.put(e.getKey(), e.getValue()));
+		return sort;
+	}
+
+	public Map<Integer, String> getSoTietHocList() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(0, "0 tiết");
+		map.put(15, "15 tiết");
+		map.put(30, "30 tiết");
+		map.put(45, "45 tiết");
+		map.put(60, "60 tiết");
+		map.put(75, "75 tiết");
+
+		Map<Integer, String> sort = new LinkedHashMap<Integer, String>();
+		map.entrySet().stream().sorted(Map.Entry.comparingByKey())
+				.forEachOrdered(e -> sort.put(e.getKey(), e.getValue()));
+		return sort;
+	}
+
 	public Map<String, String> getKhoaList() {
 		List<Khoa> list = getListDao.getKhoaList();
 		Map<String, String> map = list.stream().collect(Collectors.toMap(Khoa::getMaKhoa, Khoa::getTenKhoa));
@@ -122,6 +153,18 @@ public class GetListService {
 	public Map<String, String> getLopHocList() {
 		List<LopHoc> list = getListDao.getLopHocList();
 		Map<String, String> map = list.stream().collect(Collectors.toMap(LopHoc::getMaLop, LopHoc::getMaLop));
+		return map;
+	}
+
+	public Map<String, String> getGiangVienList() {
+		List<GiangVien> list = getListDao.getGiangVienList();
+		Map<String, String> map = list.stream().collect(Collectors.toMap(GiangVien::getMaGV, GiangVien::getHoTen));
+		return map;
+	}
+
+	public Map<String, String> getMonHocList() {
+		List<MonHoc> list = getListDao.getMonHocList();
+		Map<String, String> map = list.stream().collect(Collectors.toMap(MonHoc::getMaMH, MonHoc::getTenMH));
 		return map;
 	}
 }
