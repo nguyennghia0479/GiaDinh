@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +47,6 @@
                     <a href="lop-hoc"><i class="fas fa-chalkboard-teacher"></i> Lớp Học</a>
                     <a href="phan-cong" class="active"><i class="fas fa-clipboard-list"></i> Phân Công</a>
                     <a href="thoi-khoa-bieu"><i class="fas fa-calendar-alt"></i> Thời Khóa Biểu</a>
-                    <a href="tai-khoan"><i class="fas fa-user-cog"></i> Tài Khoản</a>
                 </div>
             </div>
             <div class="col-sm-10 ">
@@ -94,8 +92,8 @@
 		                            <th scope="col">Lớp Học</th>
 		                            <th scope="col">Môn Học</th>
 		                            <th scope="col">Giảng Viên</th>
-		                            <th scope="col">Ngày Bắt Đầu</th>
-		                            <th scope="col">Ngày Kết Thúc</th>
+		                            <th scope="col">Email</th>
+		                            <th scope="col">Trình Độ</th>
 		                            <th scope="col">Thao Tác</th>
 		                        </tr>
 		                    </thead>
@@ -121,8 +119,8 @@
 		                    			<td>${phanCong.lopHoc.maLop}</td>
 		                    			<td>${phanCong.monHoc.tenMH}</td>
 		                    			<td>${phanCong.giangVien.hoTen}</td>
-		                    			<td><fmt:formatDate value="${phanCong.ngayBD}" pattern="dd-MM-yyyy"/></td>
-		                    			<td><fmt:formatDate value="${phanCong.ngayKT}" pattern="dd-MM-yyyy"/></td>
+		                    			<td>${phanCong.giangVien.email}</td>
+		                    			<td>${phanCong.giangVien.trinhDo}</td>
 		                    			<td>
 		                    				<a href="${updateLink}" title="Sửa" class="btn btn-outline-info"><i class="fas fa-edit"></i></a>
 		                    				<a href="${deleteLink}" title="Xóa" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>

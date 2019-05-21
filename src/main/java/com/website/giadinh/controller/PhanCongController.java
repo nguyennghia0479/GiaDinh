@@ -11,6 +11,8 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.website.giadinh.entity.PhanCong;
 import com.website.giadinh.service.GetListService;
 import com.website.giadinh.service.PhanCongService;
+import com.website.giadinh.validator.PhanCongValidator;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -29,6 +32,14 @@ public class PhanCongController extends PageController<PhanCong> {
 
 	@Autowired
 	private GetListService getListService;
+	
+	@Autowired
+	private PhanCongValidator phanCongValidator;
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.addValidators(phanCongValidator);
+	}
 
 	@Override
 	public void pagedListHolder(HttpServletRequest request, List<PhanCong> list, Integer p) {
@@ -107,7 +118,7 @@ public class PhanCongController extends PageController<PhanCong> {
 	}
 
 	@RequestMapping(value = { "/edit-phan-cong", "/delete-phan-cong" }, method = RequestMethod.GET)
-	public String getPhanCong(@RequestParam Integer maPC, @RequestParam Integer p,
+	public String getPhanCong(@RequestParam Long maPC, @RequestParam Integer p,
 			@RequestParam(required = false) String k, ModelMap map, HttpServletRequest request) {
 		String servletPath = request.getServletPath().substring(7).toString();
 		map.addAttribute("phanCong", phanCongService.findById(maPC));

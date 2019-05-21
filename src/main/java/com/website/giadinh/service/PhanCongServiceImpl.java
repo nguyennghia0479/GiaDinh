@@ -21,12 +21,12 @@ public class PhanCongServiceImpl implements PhanCongService {
 	}
 
 	@Override
-	public PhanCong findById(Integer maPC) {
+	public PhanCong findById(Long maPC) {
 		return phanCongDao.findById(maPC);
 	}
 
 	@Override
-	public Boolean isExistReference(Integer maPC) {
+	public Boolean isExistReference(Long maPC) {
 		return phanCongDao.isExistReference(maPC);
 	}
 

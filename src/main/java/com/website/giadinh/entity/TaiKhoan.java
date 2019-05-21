@@ -5,15 +5,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "TaiKhoan")
 public class TaiKhoan implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "tenTK", length = 10)
+	@NotEmpty
 	private String maTK;
 	
 	@Column(name = "matKhau")
+	@NotEmpty
 	private String matKhau;
 	
 	@Column(name = "quyen", length = 10)

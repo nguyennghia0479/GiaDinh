@@ -7,9 +7,9 @@ import com.website.giadinh.entity.PhanCong;
 public interface PhanCongDao {
 	List<PhanCong> findAll();
 
-	PhanCong findById(Integer maPC);
+	PhanCong findById(Long maPC);
 
-	Boolean isExistReference(Integer maPC);
+	Boolean isExistReference(Long maPC);
 
 	void add(PhanCong phanCong);
 

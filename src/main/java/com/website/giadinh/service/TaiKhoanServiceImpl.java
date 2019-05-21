@@ -24,6 +24,11 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 	public TaiKhoan findById(String maTK) {
 		return taiKhoanDao.findById(maTK);
 	}
+	
+	@Override
+	public TaiKhoan findByPassword(String matKhau) {
+		return taiKhoanDao.findByPassword(matKhau);
+	}
 
 	@Override
 	public void add(TaiKhoan taiKhoan) {

@@ -8,6 +8,8 @@ public interface TaiKhoanService {
 	List<TaiKhoan> findAll();
 
 	TaiKhoan findById(String maTK);
+	
+	TaiKhoan findByPassword(String matKhau);
 
 	void add(TaiKhoan taiKhoan);
 

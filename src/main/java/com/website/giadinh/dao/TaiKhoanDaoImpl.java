@@ -34,6 +34,12 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.get(TaiKhoan.class, maTK);
 	}
+	
+	@Override
+	public TaiKhoan findByPassword(String matKhau) {
+		Session session = this.sessionFactory.getCurrentSession();
+		return session.get(TaiKhoan.class, matKhau);
+	}
 
 	@Override
 	public void add(TaiKhoan taiKhoan) {
@@ -76,5 +82,4 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

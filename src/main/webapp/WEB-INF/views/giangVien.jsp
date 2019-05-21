@@ -48,7 +48,6 @@
                     <a href="lop-hoc"><i class="fas fa-chalkboard-teacher"></i> Lớp Học</a>
                     <a href="phan-cong"><i class="fas fa-clipboard-list"></i> Phân Công</a>
                     <a href="thoi-khoa-bieu"><i class="fas fa-calendar-alt"></i> Thời Khóa Biểu</a>
-                    <a href="tai-khoan"><i class="fas fa-user-cog"></i> Tài Khoản</a>
                 </div>
             </div>
             <div class="col-sm-10 ">

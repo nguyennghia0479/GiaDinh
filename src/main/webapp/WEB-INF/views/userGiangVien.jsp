@@ -5,8 +5,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title></title>
+	<title>${gv.hoTen}</title>
+	<link rel="icon" type="image/jpeg" href='<spring:url value="/resources/images/giadinh.png"></spring:url>'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href='<spring:url value="/resources/css/bootstrap.min.css"></spring:url>' id="bootstrap-css">
+    <link rel="stylesheet" href='<spring:url value="/resources/fontawesome/css/all.min.css"></spring:url>'>
+    <link rel="stylesheet" href='<spring:url value="/resources/css/formAdmin.css"></spring:url>'>
+    <link rel="stylesheet" href='<spring:url value="/resources/css/listAdmin.css"></spring:url>'>
+    <script src='<spring:url value="/resources/js/jquery-3.3.1.min.js"></spring:url>'></script>
+    <script src='<spring:url value="/resources/js/bootstrap.min.js"></spring:url>'></script>
+    
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #003262;">
@@ -17,10 +26,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-university"></i> Trang Chủ <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#"><i class="fas fa-university"></i> Thông tin cá nhân <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-cogs"></i> Admin</a>
+                    <a class="nav-link" href="#"><i class="fas fa-cogs"></i> Thời khóa biểu</a>
                 </li>
             </ul>
             <ul class="navbar-nav">

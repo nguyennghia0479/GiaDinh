@@ -30,13 +30,13 @@ public class PhanCongDaoImpl implements PhanCongDao {
 	}
 
 	@Override
-	public PhanCong findById(Integer maPC) {
+	public PhanCong findById(Long maPC) {
 		Session session = this.sessionFactory.getCurrentSession();
 		return session.get(PhanCong.class, maPC);
 	}
 
 	@Override
-	public Boolean isExistReference(Integer maPC) {
+	public Boolean isExistReference(Long maPC) {
 		return true;
 	}
 
@@ -55,7 +55,7 @@ public class PhanCongDaoImpl implements PhanCongDao {
 	@Override
 	public void delete(PhanCong phanCong) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.merge(phanCong);
+		session.delete(phanCong);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -32,17 +33,21 @@ public class PhanCong implements java.io.Serializable {
 	@DateTimeFormat(iso = ISO.DATE)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "ngayBD")
+	@NotNull
 	private Date ngayBD;
 
 	@DateTimeFormat(iso = ISO.DATE)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "ngayKT")
+	@NotNull
 	private Date ngayKT;
 
 	@Column(name = "hocKy")
+	@NotNull
 	private Integer hocKy;
 
 	@Column(name = "namHoc")
+	@NotNull
 	private Integer namHoc;
 
 	@Column(name = "trangThai")
